@@ -1042,8 +1042,7 @@
         <div class="landing-orb landing-orb-1"></div>
         <div class="landing-orb landing-orb-2"></div>
         <div class="landing-content">
-            <img src="assets/logo-mute.png" alt="Logo SMK"
-                class="landing-logo">
+            <img src="assets/logo-mute.png" alt="Logo SMK" class="landing-logo">
             <div class="landing-title">DASHBOARD UJIAN</div>
             <div class="landing-subtitle">SMK MUHAMMADIYAH 3 PURBALINGGA</div>
             <div class="landing-tagline"><i class="fa-solid fa-bolt-lightning"></i>&nbsp; Exam Intelligence Platform
@@ -1142,8 +1141,11 @@
         <div
             style="background:white; padding:28px; border-radius:16px; width:92%; max-width:780px; max-height:92vh; overflow-y:auto; box-shadow:0 20px 50px rgba(0,0,0,0.25); border-top:4px solid var(--primary);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h3 style="margin:0; color:var(--sidebar-bg); font-size:17px;"><i class="fas fa-edit" style="color:var(--primary);"></i> Edit Soal</h3>
-                <button onclick="document.getElementById('modalEditSoal').style.display='none'" style="background:none;border:none;font-size:22px;cursor:pointer;color:#94a3b8;" title="Tutup">&times;</button>
+                <h3 style="margin:0; color:var(--sidebar-bg); font-size:17px;"><i class="fas fa-edit"
+                        style="color:var(--primary);"></i> Edit Soal</h3>
+                <button onclick="document.getElementById('modalEditSoal').style.display='none'"
+                    style="background:none;border:none;font-size:22px;cursor:pointer;color:#94a3b8;"
+                    title="Tutup">&times;</button>
             </div>
             <input type="hidden" id="edit-soal-id">
             <input type="hidden" id="edit-soal-tipe">
@@ -1151,18 +1153,38 @@
             <div class="form-group" style="margin-bottom:14px;">
                 <label style="font-size:12px; font-weight:600; color:#64748b;">Pertanyaan</label>
                 <!-- Mini toolbar edit -->
-                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; background:#f1f5f9; padding:6px 8px; border-radius:8px; border:1px solid #e2e8f0;">
+                <div
+                    style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; background:#f1f5f9; padding:6px 8px; border-radius:8px; border:1px solid #e2e8f0;">
                     <span style="font-size:11px; color:#94a3b8; align-self:center; margin-right:2px;">Format:</span>
-                    <button type="button" onmousedown="event.preventDefault(); formatEditText('bold')" title="Bold" style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='none'"><b>B</b></button>
-                    <button type="button" onmousedown="event.preventDefault(); formatEditText('italic')" title="Italic" style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='none'"><i>I</i></button>
-                    <button type="button" onmousedown="event.preventDefault(); formatEditText('underline')" title="Underline" style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='none'"><u>U</u></button>
+                    <button type="button" onmousedown="event.preventDefault(); formatEditText('bold')" title="Bold"
+                        style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;"
+                        onmouseover="this.style.background='#e2e8f0'"
+                        onmouseout="this.style.background='none'"><b>B</b></button>
+                    <button type="button" onmousedown="event.preventDefault(); formatEditText('italic')" title="Italic"
+                        style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;"
+                        onmouseover="this.style.background='#e2e8f0'"
+                        onmouseout="this.style.background='none'"><i>I</i></button>
+                    <button type="button" onmousedown="event.preventDefault(); formatEditText('underline')"
+                        title="Underline"
+                        style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;"
+                        onmouseover="this.style.background='#e2e8f0'"
+                        onmouseout="this.style.background='none'"><u>U</u></button>
                     <div style="width:1px;background:#cbd5e1;margin:2px 4px;"></div>
-                    <button type="button" onclick="insertMathFormulaToEditFocused()" title="Sisipkan Rumus ke field aktif" style="background:none;border:none;cursor:pointer;padding:3px 8px;font-size:12px;color:#7c3aed;border-radius:4px;font-weight:600;" onmouseover="this.style.background='#ede9fe'" onmouseout="this.style.background='none'">∑ Rumus</button>
-                    <label title="Upload Gambar ke field aktif" style="background:none;border:none;cursor:pointer;padding:3px 8px;font-size:12px;color:#0369a1;border-radius:4px;font-weight:600;margin:0;" onmouseover="this.style.background='#e0f2fe'" onmouseout="this.style.background='none'">
+                    <button type="button" onclick="insertMathFormulaToEditFocused()"
+                        title="Sisipkan Rumus ke field aktif"
+                        style="background:none;border:none;cursor:pointer;padding:3px 8px;font-size:12px;color:#7c3aed;border-radius:4px;font-weight:600;"
+                        onmouseover="this.style.background='#ede9fe'" onmouseout="this.style.background='none'">∑
+                        Rumus</button>
+                    <label title="Upload Gambar ke field aktif"
+                        style="background:none;border:none;cursor:pointer;padding:3px 8px;font-size:12px;color:#0369a1;border-radius:4px;font-weight:600;margin:0;"
+                        onmouseover="this.style.background='#e0f2fe'" onmouseout="this.style.background='none'">
                         <i class="fas fa-image"></i> Gambar
-                        <input type="file" accept="image/*" style="display:none;" onchange="insertImageToEditFocused(this)">
+                        <input type="file" accept="image/*" style="display:none;"
+                            onchange="insertImageToEditFocused(this)">
                     </label>
-                    <span id="edit-toolbar-target-label" style="font-size:11px;color:#6d28d9;align-self:center;margin-left:auto;font-weight:500;">Target: Pertanyaan</span>
+                    <span id="edit-toolbar-target-label"
+                        style="font-size:11px;color:#6d28d9;align-self:center;margin-left:auto;font-weight:500;">Target:
+                        Pertanyaan</span>
                 </div>
                 <div id="edit-soal-pertanyaan" contenteditable="true" class="form-control"
                     style="min-height: 90px; max-height:220px; overflow-y: auto; background:#f8fafc; font-size:14px; line-height:1.7;"
@@ -1174,30 +1196,44 @@
                     <label style="font-size:12px; font-weight:600; color:#64748b;">Opsi Jawaban</label>
                     <div style="display:flex; gap:6px; align-items:center;">
                         <span id="edit-opsi-count-label" style="font-size:12px; color:#94a3b8;">5 opsi</span>
-                        <button type="button" onmousedown="event.preventDefault(); removeEditOpsi()" title="Kurangi opsi" style="background:#fef2f2;border:1px solid #fecaca;color:#ef4444;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">−</button>
-                        <button type="button" onmousedown="event.preventDefault(); addEditOpsi()" title="Tambah opsi" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">+</button>
+                        <button type="button" onmousedown="event.preventDefault(); removeEditOpsi()"
+                            title="Kurangi opsi"
+                            style="background:#fef2f2;border:1px solid #fecaca;color:#ef4444;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">−</button>
+                        <button type="button" onmousedown="event.preventDefault(); addEditOpsi()" title="Tambah opsi"
+                            style="background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">+</button>
                     </div>
                 </div>
-                <div id="edit-opsi-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+                <div id="edit-opsi-grid"
+                    style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
                     <div class="form-group edit-opsi-item" data-opsi="a" style="margin:0;">
                         <label style="font-size:12px; font-weight:600; color:#16a34a;">Opsi A</label>
-                        <div id="edit-soal-a" contenteditable="true" class="form-control" style="min-height: 40px; overflow-y: auto; background:#f0fdf4; border-color:#bbf7d0; font-size:13px;" onfocus="setLastEditFocus('edit-soal-a', 'Opsi A')"></div>
+                        <div id="edit-soal-a" contenteditable="true" class="form-control"
+                            style="min-height: 40px; overflow-y: auto; background:#f0fdf4; border-color:#bbf7d0; font-size:13px;"
+                            onfocus="setLastEditFocus('edit-soal-a', 'Opsi A')"></div>
                     </div>
                     <div class="form-group edit-opsi-item" data-opsi="b" style="margin:0;">
                         <label style="font-size:12px; font-weight:600; color:#0369a1;">Opsi B</label>
-                        <div id="edit-soal-b" contenteditable="true" class="form-control" style="min-height: 40px; overflow-y: auto; background:#f0f9ff; border-color:#bae6fd; font-size:13px;" onfocus="setLastEditFocus('edit-soal-b', 'Opsi B')"></div>
+                        <div id="edit-soal-b" contenteditable="true" class="form-control"
+                            style="min-height: 40px; overflow-y: auto; background:#f0f9ff; border-color:#bae6fd; font-size:13px;"
+                            onfocus="setLastEditFocus('edit-soal-b', 'Opsi B')"></div>
                     </div>
                     <div class="form-group edit-opsi-item" data-opsi="c" style="margin:0;">
                         <label style="font-size:12px; font-weight:600; color:#b45309;">Opsi C</label>
-                        <div id="edit-soal-c" contenteditable="true" class="form-control" style="min-height: 40px; overflow-y: auto; background:#fffbeb; border-color:#fde68a; font-size:13px;" onfocus="setLastEditFocus('edit-soal-c', 'Opsi C')"></div>
+                        <div id="edit-soal-c" contenteditable="true" class="form-control"
+                            style="min-height: 40px; overflow-y: auto; background:#fffbeb; border-color:#fde68a; font-size:13px;"
+                            onfocus="setLastEditFocus('edit-soal-c', 'Opsi C')"></div>
                     </div>
                     <div class="form-group edit-opsi-item" data-opsi="d" style="margin:0;">
                         <label style="font-size:12px; font-weight:600; color:#7c3aed;">Opsi D</label>
-                        <div id="edit-soal-d" contenteditable="true" class="form-control" style="min-height: 40px; overflow-y: auto; background:#faf5ff; border-color:#e9d5ff; font-size:13px;" onfocus="setLastEditFocus('edit-soal-d', 'Opsi D')"></div>
+                        <div id="edit-soal-d" contenteditable="true" class="form-control"
+                            style="min-height: 40px; overflow-y: auto; background:#faf5ff; border-color:#e9d5ff; font-size:13px;"
+                            onfocus="setLastEditFocus('edit-soal-d', 'Opsi D')"></div>
                     </div>
                     <div class="form-group edit-opsi-item" data-opsi="e" style="margin:0; grid-column:span 2;">
                         <label style="font-size:12px; font-weight:600; color:#be185d;">Opsi E</label>
-                        <div id="edit-soal-e" contenteditable="true" class="form-control" style="min-height: 40px; overflow-y: auto; background:#fdf2f8; border-color:#fbcfe8; font-size:13px;" onfocus="setLastEditFocus('edit-soal-e', 'Opsi E')"></div>
+                        <div id="edit-soal-e" contenteditable="true" class="form-control"
+                            style="min-height: 40px; overflow-y: auto; background:#fdf2f8; border-color:#fbcfe8; font-size:13px;"
+                            onfocus="setLastEditFocus('edit-soal-e', 'Opsi E')"></div>
                     </div>
                 </div>
             </div>
@@ -1211,8 +1247,8 @@
             <div style="display:flex; gap:12px; justify-content:flex-end;">
                 <button class="btn btn-outline"
                     onclick="document.getElementById('modalEditSoal').style.display='none'">Batal</button>
-                <button class="btn btn-primary" onclick="simpanEditSoal()" id="btn-simpan-edit-soal" style="min-width:130px;"><i
-                        class="fas fa-save"></i> Simpan</button>
+                <button class="btn btn-primary" onclick="simpanEditSoal()" id="btn-simpan-edit-soal"
+                    style="min-width:130px;"><i class="fas fa-save"></i> Simpan</button>
             </div>
         </div>
     </div>
@@ -1233,8 +1269,7 @@
     <!-- SIDEBAR -->
     <nav class="sidebar">
         <div class="sidebar-brand">
-            <img src="assets/logo-mute.png"
-                alt="Logo SMK">
+            <img src="assets/logo-mute.png" alt="Logo SMK">
             <div class="brand-text">
                 <span class="title">Admin CBT</span>
                 <span class="subtitle">SMK Muhammadiyah 3<br>Purbalingga</span>
@@ -1391,7 +1426,8 @@
                             onclick="document.getElementById('modalGenerateAI').style.display='flex'">
                             <i class="fas fa-magic" style="color:#0d9488;"></i>
                             <h3 style="color: #0f766e; font-size:16px;">Generate via AI</h3>
-                            <p style="color: var(--text-muted); margin-top: 8px; font-size:13px;">Buat soal otomatis dengan Gemini</p>
+                            <p style="color: var(--text-muted); margin-top: 8px; font-size:13px;">Buat soal otomatis
+                                dengan Gemini</p>
                         </div>
 
                         <!-- Input Manual -->
@@ -1399,7 +1435,8 @@
                             onclick="openManualInputPanel()">
                             <i class="fas fa-pen-nib" style="color:#6d28d9;"></i>
                             <h3 style="color: #5b21b6; font-size:16px;">Input Soal Manual</h3>
-                            <p style="color: var(--text-muted); margin-top: 8px; font-size:13px;">Buat soal langsung, dengan gambar & rumus</p>
+                            <p style="color: var(--text-muted); margin-top: 8px; font-size:13px;">Buat soal langsung,
+                                dengan gambar & rumus</p>
                         </div>
                     </div>
 
@@ -1411,8 +1448,10 @@
                 <!-- PANEL INPUT SOAL MANUAL -->
                 <div class="card-panel" id="panel-input-manual">
                     <div class="panel-header">
-                        <h3 class="panel-title"><i class="fas fa-pen-nib" style="color:var(--primary);"></i> Input Soal Manual</h3>
-                        <button class="btn btn-outline" onclick="togglePanelManual()" id="btn-toggle-manual" style="font-size:13px;">
+                        <h3 class="panel-title"><i class="fas fa-pen-nib" style="color:var(--primary);"></i> Input Soal
+                            Manual</h3>
+                        <button class="btn btn-outline" onclick="togglePanelManual()" id="btn-toggle-manual"
+                            style="font-size:13px;">
                             <i class="fas fa-chevron-down" id="icon-toggle-manual"></i> Tampilkan Form
                         </button>
                     </div>
@@ -1421,13 +1460,16 @@
                         <!-- Row: Mapel & Tipe Soal -->
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
                             <div class="form-group">
-                                <label style="font-size:12px; font-weight:600; color:#64748b;">Mata Pelajaran (Wajib)</label>
-                                <input type="text" id="manual-mapel" list="manual-mapel-list" class="form-control" style="font-size:13px;" placeholder="Ketik atau pilih mapel...">
+                                <label style="font-size:12px; font-weight:600; color:#64748b;">Mata Pelajaran
+                                    (Wajib)</label>
+                                <input type="text" id="manual-mapel" list="manual-mapel-list" class="form-control"
+                                    style="font-size:13px;" placeholder="Ketik atau pilih mapel...">
                                 <datalist id="manual-mapel-list"></datalist>
                             </div>
                             <div class="form-group">
                                 <label style="font-size:12px; font-weight:600; color:#64748b;">Tipe Soal</label>
-                                <select id="manual-tipe" class="form-control" style="font-size:13px;" onchange="toggleManualOpsi()">
+                                <select id="manual-tipe" class="form-control" style="font-size:13px;"
+                                    onchange="toggleManualOpsi()">
                                     <option value="PG">Pilihan Ganda (PG)</option>
                                     <option value="ESSAY">Essay</option>
                                 </select>
@@ -1438,18 +1480,43 @@
                         <div class="form-group" style="margin-bottom:10px;">
                             <label style="font-size:12px; font-weight:600; color:#64748b;">Pertanyaan (Wajib)</label>
                             <!-- Mini toolbar: onmousedown+preventDefault agar fokus tidak pindah -->
-                            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; background:#f1f5f9; padding:6px 8px; border-radius:8px; border:1px solid #e2e8f0;">
-                                <span style="font-size:11px; color:#94a3b8; align-self:center; margin-right:2px;">Format:</span>
-                                <button type="button" onmousedown="event.preventDefault(); formatManualText('bold')" title="Bold" style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='none'"><b>B</b></button>
-                                <button type="button" onmousedown="event.preventDefault(); formatManualText('italic')" title="Italic" style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='none'"><i>I</i></button>
-                                <button type="button" onmousedown="event.preventDefault(); formatManualText('underline')" title="Underline" style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='none'"><u>U</u></button>
+                            <div
+                                style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; background:#f1f5f9; padding:6px 8px; border-radius:8px; border:1px solid #e2e8f0;">
+                                <span
+                                    style="font-size:11px; color:#94a3b8; align-self:center; margin-right:2px;">Format:</span>
+                                <button type="button" onmousedown="event.preventDefault(); formatManualText('bold')"
+                                    title="Bold"
+                                    style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;"
+                                    onmouseover="this.style.background='#e2e8f0'"
+                                    onmouseout="this.style.background='none'"><b>B</b></button>
+                                <button type="button" onmousedown="event.preventDefault(); formatManualText('italic')"
+                                    title="Italic"
+                                    style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;"
+                                    onmouseover="this.style.background='#e2e8f0'"
+                                    onmouseout="this.style.background='none'"><i>I</i></button>
+                                <button type="button"
+                                    onmousedown="event.preventDefault(); formatManualText('underline')"
+                                    title="Underline"
+                                    style="background:none;border:none;cursor:pointer;padding:3px 6px;font-size:13px;border-radius:4px;"
+                                    onmouseover="this.style.background='#e2e8f0'"
+                                    onmouseout="this.style.background='none'"><u>U</u></button>
                                 <div style="width:1px;background:#cbd5e1;margin:2px 4px;"></div>
-                                <button type="button" onclick="insertMathFormulaToFocused()" title="Sisipkan Rumus Matematika ke field aktif" style="background:none;border:none;cursor:pointer;padding:3px 8px;font-size:12px;color:#7c3aed;border-radius:4px;font-weight:600;" onmouseover="this.style.background='#ede9fe'" onmouseout="this.style.background='none'">∑ Rumus</button>
-                                <label title="Upload Gambar ke field aktif" style="background:none;border:none;cursor:pointer;padding:3px 8px;font-size:12px;color:#0369a1;border-radius:4px;font-weight:600;margin:0;" onmouseover="this.style.background='#e0f2fe'" onmouseout="this.style.background='none'">
+                                <button type="button" onclick="insertMathFormulaToFocused()"
+                                    title="Sisipkan Rumus Matematika ke field aktif"
+                                    style="background:none;border:none;cursor:pointer;padding:3px 8px;font-size:12px;color:#7c3aed;border-radius:4px;font-weight:600;"
+                                    onmouseover="this.style.background='#ede9fe'"
+                                    onmouseout="this.style.background='none'">∑ Rumus</button>
+                                <label title="Upload Gambar ke field aktif"
+                                    style="background:none;border:none;cursor:pointer;padding:3px 8px;font-size:12px;color:#0369a1;border-radius:4px;font-weight:600;margin:0;"
+                                    onmouseover="this.style.background='#e0f2fe'"
+                                    onmouseout="this.style.background='none'">
                                     <i class="fas fa-image"></i> Gambar
-                                    <input type="file" accept="image/*" style="display:none;" onchange="insertImageToFocused(this)">
+                                    <input type="file" accept="image/*" style="display:none;"
+                                        onchange="insertImageToFocused(this)">
                                 </label>
-                                <span id="manual-toolbar-target-label" style="font-size:11px;color:#6d28d9;align-self:center;margin-left:auto;font-weight:500;">Target: Pertanyaan</span>
+                                <span id="manual-toolbar-target-label"
+                                    style="font-size:11px;color:#6d28d9;align-self:center;margin-left:auto;font-weight:500;">Target:
+                                    Pertanyaan</span>
                             </div>
                             <div id="manual-pertanyaan" contenteditable="true" class="form-control"
                                 style="min-height:90px; max-height:200px; overflow-y:auto; font-size:14px; line-height:1.7; background:#f8fafc;"
@@ -1459,39 +1526,57 @@
 
                         <!-- Opsi A-E dengan tombol tambah/hapus -->
                         <div id="manual-opsi-container">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <div
+                                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                                 <label style="font-size:12px; font-weight:600; color:#64748b;">Opsi Jawaban</label>
                                 <div style="display:flex; gap:6px; align-items:center;">
-                                    <span id="manual-opsi-count-label" style="font-size:12px; color:#94a3b8;">5 opsi</span>
-                                    <button type="button" onmousedown="event.preventDefault(); removeManualOpsi()" title="Kurangi opsi" style="background:#fef2f2;border:1px solid #fecaca;color:#ef4444;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">−</button>
-                                    <button type="button" onmousedown="event.preventDefault(); addManualOpsi()" title="Tambah opsi" style="background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">+</button>
+                                    <span id="manual-opsi-count-label" style="font-size:12px; color:#94a3b8;">5
+                                        opsi</span>
+                                    <button type="button" onmousedown="event.preventDefault(); removeManualOpsi()"
+                                        title="Kurangi opsi"
+                                        style="background:#fef2f2;border:1px solid #fecaca;color:#ef4444;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">−</button>
+                                    <button type="button" onmousedown="event.preventDefault(); addManualOpsi()"
+                                        title="Tambah opsi"
+                                        style="background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;border-radius:6px;width:26px;height:26px;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">+</button>
                                 </div>
                             </div>
-                            <div id="manual-opsi-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+                            <div id="manual-opsi-grid"
+                                style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
                                 <!-- Opsi A -->
                                 <div class="form-group manual-opsi-item" data-opsi="a" style="margin:0;">
                                     <label style="font-size:12px; font-weight:600; color:#16a34a;">Opsi A</label>
-                                    <div id="manual-opsi-a" contenteditable="true" class="form-control" style="min-height:42px; font-size:13px; background:#f0fdf4; border-color:#bbf7d0;" onfocus="setLastManualFocus('manual-opsi-a', 'Opsi A')"></div>
+                                    <div id="manual-opsi-a" contenteditable="true" class="form-control"
+                                        style="min-height:42px; font-size:13px; background:#f0fdf4; border-color:#bbf7d0;"
+                                        onfocus="setLastManualFocus('manual-opsi-a', 'Opsi A')"></div>
                                 </div>
                                 <!-- Opsi B -->
                                 <div class="form-group manual-opsi-item" data-opsi="b" style="margin:0;">
                                     <label style="font-size:12px; font-weight:600; color:#0369a1;">Opsi B</label>
-                                    <div id="manual-opsi-b" contenteditable="true" class="form-control" style="min-height:42px; font-size:13px; background:#f0f9ff; border-color:#bae6fd;" onfocus="setLastManualFocus('manual-opsi-b', 'Opsi B')"></div>
+                                    <div id="manual-opsi-b" contenteditable="true" class="form-control"
+                                        style="min-height:42px; font-size:13px; background:#f0f9ff; border-color:#bae6fd;"
+                                        onfocus="setLastManualFocus('manual-opsi-b', 'Opsi B')"></div>
                                 </div>
                                 <!-- Opsi C -->
                                 <div class="form-group manual-opsi-item" data-opsi="c" style="margin:0;">
                                     <label style="font-size:12px; font-weight:600; color:#b45309;">Opsi C</label>
-                                    <div id="manual-opsi-c" contenteditable="true" class="form-control" style="min-height:42px; font-size:13px; background:#fffbeb; border-color:#fde68a;" onfocus="setLastManualFocus('manual-opsi-c', 'Opsi C')"></div>
+                                    <div id="manual-opsi-c" contenteditable="true" class="form-control"
+                                        style="min-height:42px; font-size:13px; background:#fffbeb; border-color:#fde68a;"
+                                        onfocus="setLastManualFocus('manual-opsi-c', 'Opsi C')"></div>
                                 </div>
                                 <!-- Opsi D -->
                                 <div class="form-group manual-opsi-item" data-opsi="d" style="margin:0;">
                                     <label style="font-size:12px; font-weight:600; color:#7c3aed;">Opsi D</label>
-                                    <div id="manual-opsi-d" contenteditable="true" class="form-control" style="min-height:42px; font-size:13px; background:#faf5ff; border-color:#e9d5ff;" onfocus="setLastManualFocus('manual-opsi-d', 'Opsi D')"></div>
+                                    <div id="manual-opsi-d" contenteditable="true" class="form-control"
+                                        style="min-height:42px; font-size:13px; background:#faf5ff; border-color:#e9d5ff;"
+                                        onfocus="setLastManualFocus('manual-opsi-d', 'Opsi D')"></div>
                                 </div>
                                 <!-- Opsi E -->
-                                <div class="form-group manual-opsi-item" data-opsi="e" style="margin:0; grid-column: span 2;">
+                                <div class="form-group manual-opsi-item" data-opsi="e"
+                                    style="margin:0; grid-column: span 2;">
                                     <label style="font-size:12px; font-weight:600; color:#be185d;">Opsi E</label>
-                                    <div id="manual-opsi-e" contenteditable="true" class="form-control" style="min-height:42px; font-size:13px; background:#fdf2f8; border-color:#fbcfe8;" onfocus="setLastManualFocus('manual-opsi-e', 'Opsi E')"></div>
+                                    <div id="manual-opsi-e" contenteditable="true" class="form-control"
+                                        style="min-height:42px; font-size:13px; background:#fdf2f8; border-color:#fbcfe8;"
+                                        onfocus="setLastManualFocus('manual-opsi-e', 'Opsi E')"></div>
                                 </div>
                             </div>
                         </div>
@@ -1499,17 +1584,22 @@
                         <!-- Kunci Jawaban (disembunyikan untuk Essay) -->
                         <div id="manual-kunci-wrapper" class="form-group" style="margin-bottom:18px;">
                             <label style="font-size:12px; font-weight:600; color:#64748b;">Kunci Jawaban (Wajib)</label>
-                            <input type="text" id="manual-kunci" class="form-control" placeholder="Ketik A, B, C, D, atau E" style="font-size:13px; text-transform:uppercase;">
+                            <input type="text" id="manual-kunci" class="form-control"
+                                placeholder="Ketik A, B, C, D, atau E"
+                                style="font-size:13px; text-transform:uppercase;">
                         </div>
 
                         <!-- Action -->
                         <div style="display:flex; justify-content:flex-end; gap:10px;">
-                            <button class="btn btn-outline" type="button" onclick="resetFormManual()"><i class="fas fa-redo"></i> Reset</button>
-                            <button class="btn btn-primary" type="button" id="btn-simpan-manual" onclick="simpanSoalManual()" style="min-width:150px;">
+                            <button class="btn btn-outline" type="button" onclick="resetFormManual()"><i
+                                    class="fas fa-redo"></i> Reset</button>
+                            <button class="btn btn-primary" type="button" id="btn-simpan-manual"
+                                onclick="simpanSoalManual()" style="min-width:150px;">
                                 <i class="fas fa-save"></i> Simpan Soal
                             </button>
                         </div>
-                        <div id="status-manual" style="margin-top:10px; text-align:center; font-weight:500; font-size:13px;"></div>
+                        <div id="status-manual"
+                            style="margin-top:10px; text-align:center; font-weight:500; font-size:13px;"></div>
                     </div>
                 </div>
 
@@ -1566,13 +1656,18 @@
                             </button>
                             <button class="btn btn-outline"
                                 style="color:#2563eb; border-color:#bfdbfe; padding:6px 12px; font-size:13px;"
-                                onclick="copySoalPreview(event)" title="Salin semua soal ini dengan format Word">
-                                <i class="fas fa-copy"></i> Copy ke Word
+                                onclick="exportSoalWord(this)" title="Download semua soal ini sebagai dokumen Word (.docx)">
+                                <i class="fas fa-file-word"></i> Ekspor ke Word
                             </button>
                             <button class="btn btn-outline" id="btn-kisi-kisi"
                                 style="color:#059669; border-color:#a7f3d0; padding:6px 12px; font-size:13px;"
                                 onclick="generateKisiKisi()" title="Buat Kisi-Kisi / Ringkasan dari Soal via AI">
                                 <i class="fas fa-magic"></i> Generate Kisi-Kisi
+                            </button>
+                            <button class="btn btn-outline"
+                                style="color:#0ea5e9; border-color:#bae6fd; padding:6px 12px; font-size:13px;"
+                                onclick="bulkActionSoal('move')" title="Pindahkan soal yang diceklis ke mapel lain">
+                                <i class="fas fa-exchange-alt"></i> Pindah Soal
                             </button>
                             <button class="btn btn-outline"
                                 style="color:var(--danger); border-color:#fecaca; padding:6px 12px; font-size:13px;"
@@ -2339,7 +2434,7 @@
 
         function openManualInputPanel() {
             const form = document.getElementById('form-input-manual');
-            const btn  = document.getElementById('btn-toggle-manual');
+            const btn = document.getElementById('btn-toggle-manual');
             // Force open
             form.style.display = 'block';
             btn.innerHTML = '<i class="fas fa-chevron-up" id="icon-toggle-manual"></i> Sembunyikan Form';
@@ -2353,7 +2448,7 @@
         function togglePanelManual() {
             const form = document.getElementById('form-input-manual');
             const icon = document.getElementById('icon-toggle-manual');
-            const btn  = document.getElementById('btn-toggle-manual');
+            const btn = document.getElementById('btn-toggle-manual');
             if (form.style.display === 'none') {
                 form.style.display = 'block';
                 icon.className = 'fas fa-chevron-up';
@@ -2403,14 +2498,14 @@
                 }
             });
             document.getElementById('manual-opsi-count-label').textContent = manualOpsiCount + ' opsi';
-            
+
             // Adjust grid layout dynamically
             const grid = document.getElementById('manual-opsi-grid');
             const lastItem = items[manualOpsiCount - 1];
-            
+
             // Reset grid column span for all
             items.forEach(i => i.style.gridColumn = 'auto');
-            
+
             // If the number of visible options is odd, make the last one span full width
             if (manualOpsiCount % 2 !== 0 && manualOpsiCount > 0) {
                 lastItem.style.gridColumn = 'span 2';
@@ -2436,7 +2531,7 @@
             const file = input.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const img = `<img src="${e.target.result}" style="max-width:100%; max-height:250px; display:block; margin:6px 0; border-radius:6px;">`;
                 const el = document.getElementById(targetId);
                 el.focus();
@@ -2560,7 +2655,7 @@
             } else {
                 status.innerHTML = `<span style="color:#10b981;"><i class="fas fa-check-circle"></i> Soal berhasil disimpan ke Mapel "<b>${mapel}</b>"!</span>`;
                 resetFormManual();
-                
+
                 // Update dropdowns and load preview asynchronously so it doesn't block the button state
                 populatePreviewMapel().then(() => {
                     bukaDetailSoal(mapel);
@@ -2684,10 +2779,85 @@
         async function bulkActionSoal(action) {
             const ids = Array.from(document.querySelectorAll('.cb-soal:checked')).map(cb => cb.value);
             if (ids.length === 0) return showToast("Pilih minimal satu soal!", 'info');
-            if (!await asyncConfirm(`Hapus <b>${ids.length} soal</b> terpilih secara permanen?`, "Hapus Bank Soal?")) return;
-            await db.from('bank_soal').delete().in('id', ids);
-            showToast(`${ids.length} soal berhasil dihapus`, 'success');
-            loadPreviewSoal();
+
+            if (action === 'delete') {
+                if (!await asyncConfirm(`Hapus <b>${ids.length} soal</b> terpilih secara permanen?`, "Hapus Bank Soal?")) return;
+                await db.from('bank_soal').delete().in('id', ids);
+                showToast(`${ids.length} soal berhasil dihapus`, 'success');
+                loadPreviewSoal();
+            } else if (action === 'move') {
+                const actionType = await Swal.fire({
+                    title: 'Pindah atau Salin?',
+                    text: 'Apakah Anda ingin Memindahkan soal ini (Cut) atau Menyalinnya (Copy)?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    showDenyButton: true,
+                    confirmButtonText: 'Pindahkan (Cut)',
+                    denyButtonText: 'Salin (Copy)',
+                    cancelButtonText: 'Batal',
+                    confirmButtonColor: '#10b981',
+                    denyButtonColor: '#3b82f6'
+                });
+
+                if (actionType.isDismissed) return;
+                const isCopy = actionType.isDenied; // Deny = Salin (Copy)
+
+                const { value: newMapel } = await Swal.fire({
+                    title: isCopy ? 'Salin ke Mapel' : 'Pindah ke Mapel',
+                    input: 'text',
+                    inputLabel: 'Masukkan nama Mata Pelajaran tujuan',
+                    inputPlaceholder: 'Contoh: Matematika Kelas X',
+                    showCancelButton: true,
+                    confirmButtonText: isCopy ? 'Salin' : 'Pindahkan',
+                    cancelButtonText: 'Batal',
+                    confirmButtonColor: '#10b981',
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'Nama mapel tidak boleh kosong!'
+                        }
+                    }
+                });
+
+                if (newMapel) {
+                    Swal.fire({ title: 'Memproses...', allowOutsideClick: false });
+                    Swal.showLoading();
+
+                    if (isCopy) {
+                        // Salin (Copy)
+                        const { data: soalToCopy, error: fetchErr } = await db.from('bank_soal').select('*').in('id', ids);
+                        if (fetchErr || !soalToCopy) {
+                            return Swal.fire('Gagal!', fetchErr ? fetchErr.message : 'Gagal mengambil data soal', 'error');
+                        }
+                        
+                        // Buang ID agar auto-increment di db
+                        const newSoalArray = soalToCopy.map(s => {
+                            const { id, created_at, ...rest } = s;
+                            rest.mapel = newMapel;
+                            return rest;
+                        });
+
+                        const { error: insertErr } = await db.from('bank_soal').insert(newSoalArray);
+                        if (insertErr) {
+                            Swal.fire('Gagal!', insertErr.message, 'error');
+                        } else {
+                            Swal.fire('Berhasil!', `${ids.length} soal berhasil disalin ke mapel ${newMapel}`, 'success').then(() => {
+                                populatePreviewMapel();
+                            });
+                        }
+                    } else {
+                        // Pindah (Cut)
+                        const { error } = await db.from('bank_soal').update({ mapel: newMapel }).in('id', ids);
+                        if (error) {
+                            Swal.fire('Gagal!', error.message, 'error');
+                        } else {
+                            Swal.fire('Berhasil!', `${ids.length} soal berhasil dipindahkan ke mapel ${newMapel}`, 'success').then(() => {
+                                loadPreviewSoal();
+                                populatePreviewMapel();
+                            });
+                        }
+                    }
+                }
+            }
         }
 
         async function bulkActionLaporan(action) {
@@ -3131,7 +3301,7 @@ Pastikan pengecoh (distractor) pada pilihan ganda sangat masuk akal dan sulit di
                 // Tampilkan Swal Success/Warning
                 let modalTitle = 'Berhasil Generate Soal!';
                 let modalText = `${soalArray.length} soal untuk ${mapel} telah berhasil dibuat oleh AI dan disimpan.`;
-                
+
                 if (soalArray.length < totalDiminta) {
                     modalTitle = 'Selesai dengan Catatan';
                     modalText = `Anda meminta ${totalDiminta} soal, namun AI hanya merespon dengan ${soalArray.length} soal. Hal ini sering terjadi jika instruksi/materi terlalu spesifik. Soal yang ada telah disimpan.`;
@@ -3219,8 +3389,7 @@ Pastikan pengecoh (distractor) pada pilihan ganda sangat masuk akal dan sulit di
 
                     // Auto-update & tampilkan di Preview Soal
                     await populatePreviewMapel();
-                    document.getElementById('preview-mapel').value = mapel;
-                    loadPreviewSoal();
+                    bukaDetailSoal(mapel);
                 } catch (err) {
                     status.innerHTML = `<span style="color: red;"><i class="fas fa-exclamation-triangle"></i> Gagal menyimpan soal: ${err.message}</span>`;
                 }
@@ -3389,14 +3558,73 @@ Pastikan pengecoh (distractor) pada pilihan ganda sangat masuk akal dan sulit di
                             }
                         });
 
+                        // Helpers for stripping prefix from DOM tree completely and cleaning empty formatting tags
+                        const stripPrefixFromDom = (node, regex) => {
+                            const traverse = (current) => {
+                                for (let child of current.childNodes) {
+                                    if (child.nodeType === 3) { // Text Node
+                                        const oldText = child.textContent;
+                                        const newText = oldText.replace(regex, '');
+                                        if (newText !== oldText) {
+                                            child.textContent = newText;
+                                            return true;
+                                        }
+                                    } else if (child.nodeType === 1) { // Element Node
+                                        if (traverse(child)) return true;
+                                    }
+                                }
+                                return false;
+                            };
+                            traverse(node);
+                        };
+
+                        const cleanEmptyTags = (node) => {
+                            const traverse = (current) => {
+                                for (let i = current.childNodes.length - 1; i >= 0; i--) {
+                                    const child = current.childNodes[i];
+                                    if (child.nodeType === 1) {
+                                        traverse(child);
+                                        if (child.innerHTML.trim() === '') {
+                                            current.removeChild(child);
+                                        }
+                                    }
+                                }
+                            };
+                            traverse(node);
+                        };
+
                         let soalArray = [];
                         let currentSoal = null;
                         let currentMode = null; // 'Q', 'A', 'B', 'C', 'D', 'E'
+                        let currentQuestionNumber = null;
 
                         blocks.forEach(node => {
                             let textMatch = node.textContent.trim();
 
-                            let isNewSoal = /^\d+[\.\)]\s/.test(textMatch) || /^Soal\s+\d+/i.test(textMatch);
+                            let num = null;
+                            const dotMatch = textMatch.match(/^(\d+)[\.\)]\s/);
+                            if (dotMatch) {
+                                num = parseInt(dotMatch[1]);
+                            } else {
+                                const soalMatch = textMatch.match(/^Soal\s+(\d+)/i);
+                                if (soalMatch) {
+                                    num = parseInt(soalMatch[1]);
+                                }
+                            }
+
+                            let isNewSoal = false;
+                            if (num !== null && currentMode !== 'Q') {
+                                if (currentQuestionNumber === null) {
+                                    isNewSoal = true;
+                                } else {
+                                    if (currentMode === null) {
+                                        isNewSoal = true;
+                                    } else {
+                                        isNewSoal = (num === currentQuestionNumber + 1);
+                                    }
+                                }
+                            }
+
                             let isOpsiA = /^A[\.\)]\s/i.test(textMatch);
                             let isOpsiB = /^B[\.\)]\s/i.test(textMatch);
                             let isOpsiC = /^C[\.\)]\s/i.test(textMatch);
@@ -3412,16 +3640,49 @@ Pastikan pengecoh (distractor) pada pilihan ganda sangat masuk akal dan sulit di
                                     kunci_jawaban: '', tipe_soal: 'PG'
                                 };
                                 currentMode = 'Q';
+                                currentQuestionNumber = num;
                                 let clone = node.cloneNode(true);
-                                clone.innerHTML = clone.innerHTML.replace(/^\d+[\.\)]\s*/, '').replace(/^Soal\s+\d+\s*/i, '');
+                                stripPrefixFromDom(clone, /^\d+[\.\)]\s*/);
+                                stripPrefixFromDom(clone, /^Soal\s+\d+\s*/i);
+                                cleanEmptyTags(clone);
                                 currentSoal.pertanyaan += clone.outerHTML;
                             }
                             else if (currentSoal) {
-                                if (isOpsiA) { currentMode = 'A'; let c = node.cloneNode(true); c.innerHTML = c.innerHTML.replace(/^A[\.\)]\s*/i, ''); currentSoal.opsi_a += c.outerHTML; }
-                                else if (isOpsiB) { currentMode = 'B'; let c = node.cloneNode(true); c.innerHTML = c.innerHTML.replace(/^B[\.\)]\s*/i, ''); currentSoal.opsi_b += c.outerHTML; }
-                                else if (isOpsiC) { currentMode = 'C'; let c = node.cloneNode(true); c.innerHTML = c.innerHTML.replace(/^C[\.\)]\s*/i, ''); currentSoal.opsi_c += c.outerHTML; }
-                                else if (isOpsiD) { currentMode = 'D'; let c = node.cloneNode(true); c.innerHTML = c.innerHTML.replace(/^D[\.\)]\s*/i, ''); currentSoal.opsi_d += c.outerHTML; }
-                                else if (isOpsiE) { currentMode = 'E'; let c = node.cloneNode(true); c.innerHTML = c.innerHTML.replace(/^E[\.\)]\s*/i, ''); currentSoal.opsi_e += c.outerHTML; }
+                                if (isOpsiA) { 
+                                    currentMode = 'A'; 
+                                    let c = node.cloneNode(true); 
+                                    stripPrefixFromDom(c, /^A[\.\)]\s*/i); 
+                                    cleanEmptyTags(c); 
+                                    currentSoal.opsi_a += c.outerHTML; 
+                                }
+                                else if (isOpsiB) { 
+                                    currentMode = 'B'; 
+                                    let c = node.cloneNode(true); 
+                                    stripPrefixFromDom(c, /^B[\.\)]\s*/i); 
+                                    cleanEmptyTags(c); 
+                                    currentSoal.opsi_b += c.outerHTML; 
+                                }
+                                else if (isOpsiC) { 
+                                    currentMode = 'C'; 
+                                    let c = node.cloneNode(true); 
+                                    stripPrefixFromDom(c, /^C[\.\)]\s*/i); 
+                                    cleanEmptyTags(c); 
+                                    currentSoal.opsi_c += c.outerHTML; 
+                                }
+                                else if (isOpsiD) { 
+                                    currentMode = 'D'; 
+                                    let c = node.cloneNode(true); 
+                                    stripPrefixFromDom(c, /^D[\.\)]\s*/i); 
+                                    cleanEmptyTags(c); 
+                                    currentSoal.opsi_d += c.outerHTML; 
+                                }
+                                else if (isOpsiE) { 
+                                    currentMode = 'E'; 
+                                    let c = node.cloneNode(true); 
+                                    stripPrefixFromDom(c, /^E[\.\)]\s*/i); 
+                                    cleanEmptyTags(c); 
+                                    currentSoal.opsi_e += c.outerHTML; 
+                                }
                                 else if (isKunci) {
                                     currentSoal.kunci_jawaban = textMatch.replace(/^Kunci\s*:\s*/i, '').trim().toUpperCase().charAt(0); // Ambil huruf pertama saja (A/B/C/D/E)
                                     currentMode = null;
@@ -3461,6 +3722,7 @@ Pastikan pengecoh (distractor) pada pilihan ganda sangat masuk akal dan sulit di
 
                         // Auto-update & tampilkan di Preview Soal
                         await populatePreviewMapel();
+                        bukaDetailSoal(mapel);
                     })
                     .catch(function (err) {
                         console.error(err);
@@ -3549,89 +3811,234 @@ Pastikan pengecoh (distractor) pada pilihan ganda sangat masuk akal dan sulit di
             populatePreviewMapel();
         }
 
-        async function copySoalPreview(event) {
+        async function exportSoalWord(btn) {
             const mapel = document.getElementById('preview-mapel').value;
             if (!mapel) return showToast("Mata pelajaran belum dipilih", "error");
 
-            const btn = event.currentTarget;
+            const result = await Swal.fire({
+                title: 'Unduh Soal Ujian',
+                text: "Apakah Anda ingin menyertakan Kunci Jawaban di dalam file Word?",
+                icon: 'question',
+                showCancelButton: true,
+                showDenyButton: true,
+                confirmButtonColor: '#10b981',
+                denyButtonColor: '#3b82f6',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: '<i class="fas fa-check"></i> Beserta Kunci',
+                denyButtonText: '<i class="fas fa-times"></i> Tanpa Kunci',
+                cancelButtonText: 'Batal'
+            });
+
+            if (result.isDismissed) return;
+            const withKey = result.isConfirmed; // true if Beserta Kunci, false if Tanpa Kunci
+
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyalin...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengekspor...';
             btn.disabled = true;
 
             const { data, error } = await db.from('bank_soal').select('*').eq('mapel', mapel).order('id', { ascending: true });
 
             if (error || !data || data.length === 0) {
                 btn.innerHTML = originalHTML; btn.disabled = false;
-                return showToast("Tidak ada soal untuk disalin", "error");
+                return showToast("Tidak ada soal untuk diekspor", "error");
             }
 
-            let htmlString = `<div style="font-family: Arial, sans-serif;">
-                <h2 style="text-align: center;">SOAL UJIAN - ${mapel.toUpperCase()}</h2>
-                <br>
-            `;
+            if (!window.docx) {
+                btn.innerHTML = originalHTML; btn.disabled = false;
+                return Swal.fire('Error', 'Library pembuat Word (.docx) belum termuat. Silakan refresh halaman.', 'error');
+            }
+
+            const { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableRow, TableCell } = window.docx;
+
+            const children = [
+                new Paragraph({
+                    text: `SOAL UJIAN - ${mapel.toUpperCase()}`,
+                    heading: HeadingLevel.HEADING_1,
+                    alignment: "center",
+                    spacing: { after: 400 }
+                })
+            ];
+
+            const parseHtmlToDocx = (html, prefix = "") => {
+                const elements = [];
+                if (!html) return elements;
+
+                const tmp = document.createElement("div");
+                tmp.innerHTML = html;
+
+                let prefixApplied = false;
+
+                const processNode = (node) => {
+                    const nodeName = node.nodeName.toLowerCase();
+
+                    if (nodeName === "table") {
+                        const rows = [];
+                        const trs = node.querySelectorAll("tr");
+                        trs.forEach(tr => {
+                            const cells = [];
+                            const tds = tr.querySelectorAll("th, td");
+                            tds.forEach(td => {
+                                const cellParagraphs = parseHtmlToDocx(td.innerHTML);
+                                if (cellParagraphs.length === 0) {
+                                    cellParagraphs.push(new Paragraph({ text: "" }));
+                                }
+                                cells.push(new TableCell({
+                                    children: cellParagraphs,
+                                    width: {
+                                        size: 100 / tds.length,
+                                        type: "pct"
+                                    }
+                                }));
+                            });
+                            if (cells.length > 0) {
+                                rows.push(new TableRow({ children: cells }));
+                            }
+                        });
+                        if (rows.length > 0) {
+                            elements.push(new Table({
+                                rows: rows,
+                                width: {
+                                    size: 100,
+                                    type: "pct"
+                                },
+                                borders: {
+                                    top: { style: "single", size: 4, color: "CCCCCC" },
+                                    bottom: { style: "single", size: 4, color: "CCCCCC" },
+                                    left: { style: "single", size: 4, color: "CCCCCC" },
+                                    right: { style: "single", size: 4, color: "CCCCCC" },
+                                    insideHorizontal: { style: "single", size: 4, color: "EAEAEA" },
+                                    insideVertical: { style: "single", size: 4, color: "EAEAEA" }
+                                }
+                            }));
+                        }
+                    } else if (nodeName === "p" || nodeName === "div") {
+                        const runs = [];
+                        if (!prefixApplied && prefix) {
+                            runs.push(new TextRun({ text: prefix, bold: true }));
+                            prefixApplied = true;
+                        }
+
+                        const extractRuns = (child) => {
+                            if (child.nodeType === 3) {
+                                const text = child.textContent;
+                                if (text) runs.push(new TextRun({ text: text }));
+                            } else if (child.nodeType === 1) {
+                                const childName = child.nodeName.toLowerCase();
+                                const bold = childName === "strong" || childName === "b";
+                                const italic = childName === "em" || childName === "i";
+                                const underline = childName === "u";
+
+                                child.childNodes.forEach(grandchild => {
+                                    if (grandchild.nodeType === 3) {
+                                        runs.push(new TextRun({
+                                            text: grandchild.textContent,
+                                            bold: bold,
+                                            italic: italic,
+                                            underline: underline ? {} : undefined
+                                        }));
+                                    } else {
+                                        extractRuns(grandchild);
+                                    }
+                                });
+                            }
+                        };
+                        node.childNodes.forEach(extractRuns);
+                        elements.push(new Paragraph({ children: runs }));
+                    } else if (node.nodeType === 3) {
+                        const txt = node.textContent.trim();
+                        if (txt) {
+                            const runs = [];
+                            if (!prefixApplied && prefix) {
+                                runs.push(new TextRun({ text: prefix, bold: true }));
+                                prefixApplied = true;
+                            }
+                            runs.push(new TextRun({ text: txt }));
+                            elements.push(new Paragraph({ children: runs }));
+                        }
+                    } else {
+                        const text = (node.textContent || "").trim();
+                        if (text) {
+                            const runs = [];
+                            if (!prefixApplied && prefix) {
+                                runs.push(new TextRun({ text: prefix, bold: true }));
+                                prefixApplied = true;
+                            }
+                            runs.push(new TextRun({ text: text }));
+                            elements.push(new Paragraph({ children: runs }));
+                        }
+                    }
+                };
+
+                Array.from(tmp.childNodes).forEach(processNode);
+                return elements;
+            };
 
             data.forEach((s, idx) => {
-                let qText = (s.pertanyaan || "").trim();
-                if (qText.toLowerCase().startsWith('<p>') && qText.toLowerCase().endsWith('</p>')) {
-                    qText = qText.substring(3, qText.length - 4);
+                const qElements = parseHtmlToDocx(s.pertanyaan, `${idx + 1}. `);
+                if (qElements.length === 0) {
+                    children.push(new Paragraph({ text: `${idx + 1}. ` }));
+                } else {
+                    children.push(...qElements);
                 }
-
-                htmlString += `<div style="margin-bottom: 20px;">
-                    <p style="margin: 0 0 5px 0;"><b>${idx + 1}.</b> ${qText}</p>
-                `;
 
                 if (s.tipe_soal !== 'ESSAY') {
-                    const formatOption = (optStr) => {
-                        let text = (optStr || "").trim();
-                        if (text.toLowerCase().startsWith('<p>') && text.toLowerCase().endsWith('</p>')) {
-                            text = text.substring(3, text.length - 4);
-                        }
-                        return text;
-                    };
+                    const optAElements = parseHtmlToDocx(s.opsi_a, "A. ");
+                    children.push(...(optAElements.length === 0 ? [new Paragraph({ text: "A. " })] : optAElements));
 
-                    htmlString += `
-                    <div style="margin-left: 20px;">
-                        <p style="margin: 2px 0;">A. ${formatOption(s.opsi_a)}</p>
-                        <p style="margin: 2px 0;">B. ${formatOption(s.opsi_b)}</p>
-                        <p style="margin: 2px 0;">C. ${formatOption(s.opsi_c)}</p>
-                        <p style="margin: 2px 0;">D. ${formatOption(s.opsi_d)}</p>
-                        <p style="margin: 2px 0;">E. ${formatOption(s.opsi_e)}</p>
-                    </div>`;
+                    const optBElements = parseHtmlToDocx(s.opsi_b, "B. ");
+                    children.push(...(optBElements.length === 0 ? [new Paragraph({ text: "B. " })] : optBElements));
+
+                    const optCElements = parseHtmlToDocx(s.opsi_c, "C. ");
+                    children.push(...(optCElements.length === 0 ? [new Paragraph({ text: "C. " })] : optCElements));
+
+                    const optDElements = parseHtmlToDocx(s.opsi_d, "D. ");
+                    children.push(...(optDElements.length === 0 ? [new Paragraph({ text: "D. " })] : optDElements));
+
+                    const optEElements = parseHtmlToDocx(s.opsi_e, "E. ");
+                    children.push(...(optEElements.length === 0 ? [new Paragraph({ text: "E. " })] : optEElements));
+
+                    if (withKey && s.kunci_jawaban) {
+                        children.push(new Paragraph({ text: `Kunci: ${s.kunci_jawaban.toUpperCase().charAt(0)}` }));
+                    }
+                } else {
+                    children.push(new Paragraph({ text: `Tipe: ESSAY` }));
+                    if (withKey && s.kunci_jawaban) {
+                        const keyElements = parseHtmlToDocx(s.kunci_jawaban, "Kunci: ");
+                        children.push(...(keyElements.length === 0 ? [new Paragraph({ text: "Kunci: " })] : keyElements));
+                    }
                 }
-                htmlString += `</div>`;
             });
-            htmlString += `</div>`;
 
-            const div = document.createElement('div');
-            div.innerHTML = htmlString;
-            div.style.position = 'absolute';
-            div.style.left = '-9999px';
-            document.body.appendChild(div);
+            const doc = new Document({
+                sections: [{
+                    properties: {},
+                    children: children
+                }]
+            });
 
-            const range = document.createRange();
-            range.selectNodeContents(div);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
+            Packer.toBlob(doc).then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `SOAL_UJIAN_${mapel.replace(/\s+/g, '_').toUpperCase()}.docx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
 
-            try {
-                document.execCommand('copy');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Berhasil Disalin!',
-                    text: 'Soal telah disalin ke Clipboard dengan format rapi. Silakan buka Microsoft Word dan tekan Ctrl+V (Paste).',
+                    title: 'Berhasil Diekspor!',
+                    text: 'Dokumen Word (.docx) berhasil diunduh. File ini 100% kompatibel dan siap untuk diimpor kembali ke halaman Bank Soal.',
                     confirmButtonColor: '#10b981'
                 });
-            } catch (err) {
-                console.error('Copy failed', err);
-                showToast("Gagal menyalin. Browser Anda tidak mendukung aksi ini.", "error");
-            }
-
-            selection.removeAllRanges();
-            document.body.removeChild(div);
-
-            btn.innerHTML = originalHTML;
-            btn.disabled = false;
+            }).catch(err => {
+                console.error("Gagal membuat file Word:", err);
+                showToast("Gagal mengunduh dokumen .docx", "error");
+            }).finally(() => {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            });
         }
 
         async function generateKisiKisi() {
@@ -3677,7 +4084,7 @@ Kisi-kisi harus:
                     }
                     throw aiError;
                 }
-                
+
                 if (!resData || !resData.candidates) throw new Error("Gagal menerima respons dari AI");
                 let resultHtml = resData.candidates[0].content.parts[0].text;
                 resultHtml = resultHtml.replace(/```html/gi, '').replace(/```/g, '').trim();
@@ -3728,7 +4135,14 @@ Kisi-kisi harus:
                 return;
             }
 
-            container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--primary);"><i class="fas fa-spinner fa-spin"></i> Memuat soal...</div>';
+            // Simpan posisi scroll sebelum update
+            const currentScrollTop = container ? container.scrollTop : 0;
+
+            // Hanya tampilkan spinner loading jika kontainer belum berisi daftar soal (soft reload)
+            const hasQuestions = container.querySelector('.soal-item') !== null;
+            if (!hasQuestions) {
+                container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--primary);"><i class="fas fa-spinner fa-spin"></i> Memuat soal...</div>';
+            }
 
             const { data, error } = await db.from('bank_soal').select('*').eq('mapel', mapel).order('id', { ascending: true });
 
@@ -3799,6 +4213,11 @@ Kisi-kisi harus:
 
             container.innerHTML = html;
 
+            // Kembalikan scroll ke posisi semula secara instan
+            if (container) {
+                container.scrollTop = currentScrollTop;
+            }
+
             // Render ulang MathJax agar rumus matematika dari soal yang baru diload terbaca
             if (window.MathJax) {
                 MathJax.typesetPromise([container]).catch(function (err) { console.error(err); });
@@ -3846,7 +4265,7 @@ Kisi-kisi harus:
             });
             const lbl = document.getElementById('edit-opsi-count-label');
             if (lbl) lbl.textContent = editOpsiCount + ' opsi';
-            
+
             // Adjust grid
             const lastItem = items[editOpsiCount - 1];
             items.forEach(i => i.style.gridColumn = 'auto');
@@ -3875,11 +4294,11 @@ Kisi-kisi harus:
             const kunciWrapper = document.getElementById('edit-kunci-wrapper');
             if (data.tipe_soal === 'ESSAY') {
                 opsiContainer.style.display = 'none';
-                if(kunciWrapper) kunciWrapper.style.display = 'none';
+                if (kunciWrapper) kunciWrapper.style.display = 'none';
             } else {
                 opsiContainer.style.display = 'block';
-                if(kunciWrapper) kunciWrapper.style.display = 'block';
-                
+                if (kunciWrapper) kunciWrapper.style.display = 'block';
+
                 // Determine how many options exist
                 let count = 0;
                 if (data.opsi_a) count = 1;
