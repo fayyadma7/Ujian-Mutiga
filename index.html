@@ -1170,7 +1170,23 @@
             transition: border-color 0.3s, box-shadow 0.3s;
             position: relative;
             overflow: hidden;
-            animation: soalFadeIn 0.4s ease both;
+            display: none; /* Pagination: semua soal tersembunyi secara default */
+        }
+
+        .soal-item.soal-aktif {
+            display: block;
+            animation: soalSlideIn 0.35s cubic-bezier(0.25, 1, 0.5, 1) both;
+        }
+
+        @keyframes soalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes soalFadeIn {
@@ -1183,6 +1199,60 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* ===== PAGINATION NAVIGATION ===== */
+        .pagination-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 8px;
+            margin-bottom: 12px;
+        }
+
+        .btn-pagination {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-pagination:hover:not(:disabled) {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.4);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-pagination:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+            white-space: nowrap;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .pagination-info span {
+            color: var(--gold-light);
+            font-size: 16px;
         }
 
         .soal-item::before {
@@ -2218,6 +2288,26 @@
                 font-size: 9px;
                 padding: 4px 8px;
             }
+
+            .pagination-nav {
+                gap: 6px;
+                padding: 0 4px;
+            }
+
+            .btn-pagination {
+                padding: 10px 10px;
+                font-size: 12px;
+                gap: 5px;
+            }
+
+            .pagination-info {
+                font-size: 12px;
+                min-width: 55px;
+            }
+
+            .pagination-info span {
+                font-size: 14px;
+            }
         }
 
         /* Tunda animasi landing page hingga overlay diklik */
@@ -2583,8 +2673,11 @@
                         class="fas fa-wifi"></i></div>
                 <div class="modal-title">Gagal Memuat</div>
                 <div class="modal-text" id="textErrorJaringan">Terjadi kesalahan jaringan atau server.</div>
-                <button class="btn-overlay" onclick="tutupModalErrorJaringan()"><i class="fas fa-check me-2"></i>OK,
-                    Mengerti</button>
+                <div style="display: flex; gap: 8px; margin-top: 15px; width: 100%;">
+                    <button class="btn-overlay" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fcd34d; font-size: 12px; padding: 10px 8px; flex: 1;" onclick="downloadJawabanDarurat()"><i class="fas fa-download"></i> Backup</button>
+                    <button class="btn-overlay" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #93c5fd; font-size: 12px; padding: 10px 8px; flex: 1;" onclick="tutupModalErrorJaringan(); prosesSubmitFinal()"><i class="fas fa-redo"></i> Coba Lagi</button>
+                    <button class="btn-overlay" onclick="tutupModalErrorJaringan()" style="font-size: 12px; padding: 10px 8px; flex: 0.8;">Tutup</button>
+                </div>
             </div>
         </div>
 
@@ -2686,7 +2779,20 @@
 
                         <div id="containerSoal"></div>
 
-                        <button type="button" class="btn-submit" onclick="submitJawaban(false)">
+                        <!-- Pagination Navigation -->
+                        <div class="pagination-nav" id="paginationNav">
+                            <button type="button" class="btn-pagination" id="btnPrev" onclick="gantiSoal(-1)" disabled>
+                                <i class="fas fa-chevron-left"></i> Sebelumnya
+                            </button>
+                            <div class="pagination-info" id="paginationInfo">
+                                <span>1</span> / 0
+                            </div>
+                            <button type="button" class="btn-pagination" id="btnNext" onclick="gantiSoal(1)">
+                                Selanjutnya <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+
+                        <button type="button" class="btn-submit" id="btnSelesaiKirim" onclick="submitJawaban(false)" style="display:none;">
                             <i class="fas fa-paper-plane"></i>
                             <span>Selesai &amp; Kirim Jawaban</span>
                         </button>
@@ -2985,7 +3091,10 @@
                     const filtered = listMapel.filter(j => {
                         // Cek rentang waktu di JS agar kebal terhadap isu Timezone (UTC vs Local)
                         const tMulai = new Date(j.waktu_mulai);
-                        const tSelesai = new Date(j.waktu_selesai);
+                        let tSelesai = j.waktu_selesai ? new Date(j.waktu_selesai) : null;
+                        if (!tSelesai || isNaN(tSelesai.getTime())) {
+                            tSelesai = new Date(tMulai.getTime() + (j.durasi_menit || 90) * 60000);
+                        }
                         if (nowJs < tMulai || nowJs > tSelesai) return false;
 
                         if (!j.kelas) return true;
@@ -3054,11 +3163,11 @@
             const btnMulai = document.querySelector("#modalPeringatan .btn-modal-confirm");
             if (btnMulai.disabled) return;
             btnMulai.disabled = true;
-            btnMulai.innerHTML = `<i class="fas fa-circle-notch fa-spin" style="margin-right: 6px;"></i> Menyiapkan...`;
+            btnMulai.innerHTML = `<i class="fas fa-circle-notch fa-spin" style="margin-right: 6px;"></i> Menghubungkan ke server...`;
 
             // --- SOLUSI HIGH TRAFFIC: JITTER & RETRY ---
-            // 1. Jitter: Delay acak 0-2.5 detik agar tidak semua siswa hit server di milidetik yang sama
-            const jitter = Math.random() * 2500;
+            // 1. Jitter: Delay acak 0-4 detik agar tidak semua siswa hit server di milidetik yang sama
+            const jitter = Math.random() * 4000;
             await new Promise(resolve => setTimeout(resolve, jitter));
 
             // Force fullscreen
@@ -3434,7 +3543,7 @@
                 const raguClass = isRagu ? 'btn-ragu ragu-active' : 'btn-ragu';
                 const raguIcon = isRagu ? 'fas fa-bookmark' : 'far fa-bookmark';
 
-                h += `<div class="soal-item" id="soal-wrap-${i}">
+                h += `<div class="soal-item${i === 0 ? ' soal-aktif' : ''}" id="soal-wrap-${i}">
         <div class="soal-header-row">
             <div class="soal-num-badge" id="badge-${i}">Soal ${i + 1}</div>
             <button type="button" class="${raguClass}" id="btn-ragu-${i}" onclick="toggleRaguRagu(${i})">
@@ -3473,12 +3582,73 @@
             });
 
             if (window.MathJax) MathJax.typesetPromise();
-            // Stagger animation
-            document.querySelectorAll('.soal-item').forEach((el, i) => {
-                el.style.animationDelay = (i * 0.04) + 's';
-            });
             // Update progress count
             document.getElementById('progress-count').innerText = `0 / ${data.length} soal`;
+
+            // === PAGINATION: Set soal pertama aktif ===
+            window.currentSoalIndex = 0;
+            updatePaginationUI();
+        }
+
+        // ===== PAGINATION: Fungsi Ganti Soal =====
+        function gantiSoal(arah) {
+            const total = s_data.length;
+            const newIndex = window.currentSoalIndex + arah;
+            if (newIndex < 0 || newIndex >= total) return;
+
+            // Sembunyikan soal saat ini
+            const soalLama = document.getElementById('soal-wrap-' + window.currentSoalIndex);
+            if (soalLama) soalLama.classList.remove('soal-aktif');
+
+            // Tampilkan soal baru
+            window.currentSoalIndex = newIndex;
+            const soalBaru = document.getElementById('soal-wrap-' + newIndex);
+            if (soalBaru) {
+                soalBaru.classList.add('soal-aktif');
+                // Re-trigger animation
+                soalBaru.style.animation = 'none';
+                soalBaru.offsetHeight; // force reflow
+                soalBaru.style.animation = '';
+            }
+
+            // Scroll ke atas agar soal baru terlihat dari atas
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // MathJax re-render jika ada rumus di soal baru
+            if (window.MathJax) MathJax.typesetPromise();
+
+            updatePaginationUI();
+        }
+
+        function updatePaginationUI() {
+            const total = s_data.length;
+            const idx = window.currentSoalIndex;
+
+            // Update tombol Prev/Next
+            document.getElementById('btnPrev').disabled = (idx === 0);
+            document.getElementById('btnNext').disabled = (idx >= total - 1);
+
+            // Update info "X / total"
+            document.getElementById('paginationInfo').innerHTML = `<span>${idx + 1}</span> / ${total}`;
+
+            // Update status-aktif di grid navigasi
+            for (let i = 0; i < total; i++) {
+                const btnD = document.getElementById(`nav-no-desktop-${i}`);
+                const btnM = document.getElementById(`nav-no-mobile-${i}`);
+                if (i === idx) {
+                    if (btnD) btnD.classList.add('status-aktif');
+                    if (btnM) btnM.classList.add('status-aktif');
+                } else {
+                    if (btnD) btnD.classList.remove('status-aktif');
+                    if (btnM) btnM.classList.remove('status-aktif');
+                }
+            }
+
+            // Tampilkan/sembunyikan tombol Selesai & Kirim
+            const btnSelesai = document.getElementById('btnSelesaiKirim');
+            if (btnSelesai) {
+                btnSelesai.style.display = (idx >= total - 1) ? 'flex' : 'none';
+            }
         }        // ===== FUNGSI BOTTOM SHEET NAVIGASI MOBILE =====
         function bukaSheetNavigasi() {
             const sheet = document.getElementById('bottom-sheet-nav');
@@ -3519,17 +3689,28 @@
             gridMobile.innerHTML = hM;
         }
 
-        // ===== FUNGSI LOMPAT KE SOAL =====
+        // ===== FUNGSI LOMPAT KE SOAL (PAGINATION) =====
         function lompatKeSoal(idx) {
             tutupSheetNavigasi();
-            const el = document.getElementById('soal-wrap-' + idx);
-            if (el) {
-                // Berikan jeda kecil agar animasi tutup sheet selesai dulu, 
-                // sehingga tidak bentrok dengan animasi scroll yang bikin lag di HP
-                setTimeout(() => {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 150);
+            if (idx < 0 || idx >= s_data.length) return;
+
+            // Sembunyikan soal saat ini
+            const soalLama = document.getElementById('soal-wrap-' + window.currentSoalIndex);
+            if (soalLama) soalLama.classList.remove('soal-aktif');
+
+            // Tampilkan soal yang dipilih
+            window.currentSoalIndex = idx;
+            const soalBaru = document.getElementById('soal-wrap-' + idx);
+            if (soalBaru) {
+                soalBaru.classList.add('soal-aktif');
+                soalBaru.style.animation = 'none';
+                soalBaru.offsetHeight;
+                soalBaru.style.animation = '';
             }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (window.MathJax) MathJax.typesetPromise();
+            updatePaginationUI();
         }
 
         // ===== FUNGSI UPDATE STATUS NAVIGASI TAMPILAN =====
@@ -3604,43 +3785,10 @@
             updateNavigasiTampilan();
         }
 
-        // ===== SETUP SCROLL OBSERVER =====
+        // ===== SCROLL OBSERVER (TIDAK DIPAKAI LAGI - PAGINATION MODE) =====
         let scrollObserver = null;
         function setupScrollObserver() {
-            if (scrollObserver) scrollObserver.disconnect();
-
-            const options = {
-                root: null,
-                rootMargin: '-30% 0px -30% 0px', // Target middle of screen
-                threshold: 0
-            };
-
-            scrollObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const idStr = entry.target.id; // soal-wrap-X
-                        const idx = parseInt(idStr.replace('soal-wrap-', ''));
-                        
-                        // Set status-aktif ke grid navigasi terkait
-                        for (let i = 0; i < s_data.length; i++) {
-                            const btnD = document.getElementById(`nav-no-desktop-${i}`);
-                            const btnM = document.getElementById(`nav-no-mobile-${i}`);
-                            if (i === idx) {
-                                if (btnD) btnD.classList.add('status-aktif');
-                                if (btnM) btnM.classList.add('status-aktif');
-                            } else {
-                                if (btnD) btnD.classList.remove('status-aktif');
-                                if (btnM) btnM.classList.remove('status-aktif');
-                            }
-                        }
-                    }
-                });
-            }, options);
-
-            // Observe all question cards
-            document.querySelectorAll('.soal-item').forEach(el => {
-                scrollObserver.observe(el);
-            });
+            // Tidak diperlukan lagi karena menggunakan pagination satu-per-satu
         }
 
 
@@ -3777,6 +3925,33 @@
                 return;
             }
 
+            // Cek soal yang ditandai Ragu-Ragu
+            if (!auto && window.stateRagu && window.stateRagu.length > 0) {
+                let nomorRagu = [];
+                window.stateRagu.forEach((isRagu, i) => {
+                    if (isRagu) nomorRagu.push(i + 1);
+                });
+                if (nomorRagu.length > 0) {
+                    const tampilNomor = nomorRagu.slice(0, 10).join(", ") + (nomorRagu.length > 10 ? ` ...+${nomorRagu.length - 10} lainnya` : '');
+                    Swal.fire({
+                        title: 'Ada Soal Ragu-Ragu!',
+                        html: `<span style="font-size: 14px; color: #94a3b8;">Kamu masih menandai <b style="color: #fcd34d;">${nomorRagu.length} soal</b> sebagai Ragu-Ragu:<br><br><span style="color: #fcd34d;">No. ${tampilNomor}</span><br><br>Yakin ingin mengirim jawaban sekarang?</span>`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#10b981',
+                        cancelButtonColor: '#64748b',
+                        confirmButtonText: 'Ya, Kirim Saja',
+                        cancelButtonText: 'Kembali Periksa',
+                        customClass: { popup: 'modern-swal-popup', title: 'modern-swal-title', confirmButton: 'modern-swal-btn', cancelButton: 'modern-swal-btn' }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('modalKonfirmasiSubmit').style.display = 'flex';
+                        }
+                    });
+                    return;
+                }
+            }
+
             if (!auto) {
                 document.getElementById('modalKonfirmasiSubmit').style.display = 'flex';
                 return;
@@ -3793,10 +3968,10 @@
                 else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
                 else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
             } catch (e) { }
-            setTimeout(() => {
-                const elementSoal = document.getElementById('soal-wrap-' + window.targetScrollBelumLengkap);
-                if (elementSoal) elementSoal.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
+            // Lompat ke soal kosong pertama (pagination mode)
+            if (window.targetScrollBelumLengkap !== undefined) {
+                lompatKeSoal(window.targetScrollBelumLengkap);
+            }
         }
 
         function tutupModalKonfirmasiSubmit() {
@@ -3822,6 +3997,50 @@
                 else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
                 else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
             } catch (e) { }
+        }
+
+        function downloadJawabanDarurat() {
+            tutupModalErrorJaringan();
+            const n = document.getElementById('nama').value;
+            const m = document.getElementById('mapel').value;
+            const k = document.getElementById('kelas').value;
+            let payloadJawaban = [];
+            let jwbString = "";
+            
+            s_data.forEach((s, i) => {
+                let el = document.getElementsByName('q' + i);
+                let nilaiJawaban = "";
+                if (el && el.length > 0) {
+                    if (el[0].type === 'radio') {
+                        let sel = Array.from(el).find(r => r.checked);
+                        nilaiJawaban = sel ? sel.value : "";
+                    } else {
+                        nilaiJawaban = el[0].value.trim();
+                    }
+                }
+                payloadJawaban.push({ id: s[6], tipe: s[8], jawaban: nilaiJawaban });
+                jwbString += `No.${i+1} (${s[8]}): ${nilaiJawaban}\\n`;
+            });
+
+            const content = `=== DATA JAWABAN DARURAT ===\\nNama: ${n}\\nKelas: ${k}\\nMapel: ${m}\\nWaktu: ${new Date().toLocaleString('id-ID')}\\n\\n${jwbString}\\n\\n=== JANGAN UBAH TEKS DI BAWAH INI ===\\n${JSON.stringify(payloadJawaban)}`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Jawaban_${n.replace(/\\s/g, '_')}_${m.replace(/\\s/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            
+            Swal.fire({
+                title: 'Berhasil Didownload!',
+                html: '<span style="font-size: 14px; color: #475569;">File jawaban (.txt) berhasil disimpan ke perangkatmu. Serahkan file tersebut ke Pengawas Ujian.<br><br><b>Catatan:</b> Kamu tetap bisa mengeklik tombol <b>Selesai & Kirim Jawaban</b> kembali untuk mencoba mengirim jawaban secara online jika sinyal sudah membaik.</span>',
+                icon: 'success',
+                confirmButtonColor: '#10b981',
+                customClass: { popup: 'modern-swal-popup', title: 'modern-swal-title', confirmButton: 'modern-swal-btn' }
+            });
         }
 
         function prosesSubmitFinal(auto = false, jwbParam = null) {
@@ -3911,11 +4130,13 @@
 
                 // 1.5 VALIDASI: CEK APAKAH SESI MASIH VALID (BELUM DI-RESET ADMIN)
                 if (window.idRowUjian) {
-                    const { data: cekSesi } = await safeDbCall(() =>
-                        db.from('jawaban_ujian').select('id').eq('id', window.idRowUjian).maybeSingle()
-                    ).catch(() => ({ data: null }));
-                    if (!cekSesi) {
-                        document.getElementById('overlaySubmit').style.display = 'none';
+                    try {
+                        const { data: cekSesi, error: errorCek } = await safeDbCall(() =>
+                            db.from('jawaban_ujian').select('id').eq('id', window.idRowUjian).maybeSingle()
+                        );
+                        // Hanya anggap direset jika kueri BERHASIL (!errorCek) TAPI datanya kosong (!cekSesi)
+                        if (!errorCek && !cekSesi) {
+                            document.getElementById('overlaySubmit').style.display = 'none';
                         btnSelesai.disabled = false;
                         btnSelesai.innerHTML = `<i class="fas fa-paper-plane"></i><span>Selesai &amp; Kirim Jawaban</span>`;
                         await Swal.fire({
@@ -3931,6 +4152,9 @@
                         ['sesi_aktif_', 'asas_', 'waktu_mulai_', 'pelanggaran_', 'urutan_', 'durasi_', 'ragu_'].forEach(prefix => localStorage.removeItem(prefix + idUserReset));
                         location.reload();
                         return;
+                        }
+                    } catch (e) {
+                        // Abaikan jika terjadi network error saat cek sesi, biar ditangkap oleh error handling utama di bawah
                     }
                 }
 
@@ -3959,10 +4183,14 @@
                     btnSelesai.innerHTML = `<i class="fas fa-paper-plane"></i><span>Selesai &amp; Kirim Jawaban</span>`;
                 }
             };
-
-            sendSubmitRequest();
+            if (auto) {
+                // Jitter: Tambahkan jeda acak 0 - 5 detik untuk mengurai antrean kueri saat waktu habis massal
+                const jitterMs = Math.floor(Math.random() * 5000);
+                setTimeout(sendSubmitRequest, jitterMs);
+            } else {
+                sendSubmitRequest();
+            }
         }
-
         let isViolating = false;
 let aktifSignalSent = false;
 
