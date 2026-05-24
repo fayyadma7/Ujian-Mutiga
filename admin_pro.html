@@ -6152,9 +6152,23 @@ Kisi-kisi harus:
                             }
                         }
 
-                        // Reload monitoring table only if the monitoring page is active
-                        if (document.getElementById('monitoring').classList.contains('active')) {
-                            loadMonitoring();
+// Reload monitoring table ONLY jika ada perubahan STATUS atau INSERT baru
+                        // Abaikan update jawaban_pg/jawaban_essay biasa (auto-sync siswa)
+                        let perluReload = false;
+                        if (ev === 'INSERT') {
+                            perluReload = true;
+                        } else if (ev === 'UPDATE') {
+                            const statusBerubah = (prev.status || '') !== (s.status || '');
+                            const pelanggaranBertambah = (parseInt(s.pelanggaran) || 0) > (parseInt(prev.pelanggaran) || 0);
+                            if (statusBerubah || pelanggaranBertambah) {
+                                perluReload = true;
+                            }
+                        }
+                        if (perluReload && document.getElementById('monitoring').classList.contains('active')) {
+                            if (window._monDebounce) clearTimeout(window._monDebounce);
+                            window._monDebounce = setTimeout(() => {
+                                loadMonitoring();
+                            }, 3000);
                         }
                     }
                 )
