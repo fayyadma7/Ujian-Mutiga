@@ -22,6 +22,37 @@
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error("Error detected:", message);
+            if (typeof db !== 'undefined') {
+                db.from('error_logs').insert([{
+                    error_message: typeof message === 'string' ? message : message.message,
+                    stack_trace: error ? error.stack : (source + ":" + lineno + ":" + colno),
+                    user_agent: navigator.userAgent,
+                    url: window.location.href
+                }]).then(res => {
+                    if (res.error) console.error("Failed to log error to Supabase:", res.error);
+                });
+            }
+            return false;
+        };
+
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error("Unhandled promise rejection:", event.reason);
+            if (typeof db !== 'undefined') {
+                db.from('error_logs').insert([{
+                    error_message: event.reason ? (typeof event.reason === 'string' ? event.reason : event.reason.message) : "Unknown Promise Error",
+                    stack_trace: event.reason ? event.reason.stack : "N/A",
+                    user_agent: navigator.userAgent,
+                    url: window.location.href
+                }]).then(res => {
+                    if (res.error) console.error("Failed to log rejection to Supabase:", res.error);
+                });
+            }
+        });
+    </script>
+
 
     <style>
         :root {
@@ -69,6 +100,28 @@
             body {
                 display: none !important;
             }
+        }
+
+        /* ===================== PERFORMANCE: DISABLE EXAM FORM ANIMATIONS ONLY (Keep landing & loading) ===================== */
+        /* Remove animations from exam form elements - keep landing page & loading animations */
+        .soal-item,
+        .soal-aktif,
+        #soal-wrap,
+        .btn-nav-no,
+        #bottom-sheet-nav,
+        #grid-nav-desktop,
+        #grid-nav-mobile,
+        .exam-header-card,
+        .timer-display,
+        .sheet-overlay,
+        .anti-cheat-toast {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        /* Disable scroll smoothing for exam context */
+        .exam-container {
+            scroll-behavior: auto !important;
         }
 
         /* ===================== CUSTOM SCROLLBAR ===================== */
@@ -1504,6 +1557,14 @@
             min-height: 100px;
         }
 
+        @media (max-width: 768px) {
+            .essay-textarea {
+                min-height: 60px;
+                padding: 10px 12px;
+                font-size: 16px;
+            }
+        }
+
         .essay-textarea::placeholder {
             color: rgba(255, 255, 255, 0.2);
         }
@@ -1869,7 +1930,6 @@
             margin: 20px;
             text-align: center;
             box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.1), 0 32px 80px rgba(0, 0, 0, 0.5);
-            animation: shakeIn 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
         }
 
         @keyframes shakeIn {
@@ -2022,7 +2082,6 @@
             width: 90%;
             text-align: center;
             box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
-            animation: cardReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
@@ -2393,6 +2452,67 @@
         .swal2-backdrop-show {
             background: rgba(2, 6, 23, 0.75) !important;
             backdrop-filter: blur(4px) !important;
+        }
+
+        /* ===================== MOBILE PERFORMANCE OPTIMIZATION (Low-End Devices 2GB RAM) ===================== */
+        @media (max-width: 768px) {
+            /* Hide expensive floating background elements */
+            .bg-orb {
+                display: none !important;
+            }
+
+            /* Disable expensive blur and filter effects on mobile */
+            [style*="backdrop-filter"],
+            [style*="-webkit-backdrop-filter"],
+            [style*="filter"] {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                filter: none !important;
+            }
+
+            /* Reduce/remove box shadows for exam elements */
+            .soal-item,
+            .exam-header-card,
+            .btn,
+            .form-control,
+            #bottom-sheet-nav {
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+            }
+
+            /* Simplify modal backdrops */
+            #modalPeringatan,
+            #modalBelumLengkap,
+            #modalKonfirmasiSubmit,
+            #modalBiodataKosong,
+            #modalErrorJaringan,
+            #modalSudahSelesai,
+            #modalPeringatan5Menit,
+            #modalWaktuHabis {
+                background: rgba(0, 0, 0, 0.5) !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
+            /* Remove hover effects that trigger repaints */
+            .btn:hover {
+                transform: none !important;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+            }
+
+            /* Simplify form input effects */
+            .form-control {
+                border: 1px solid rgba(59, 130, 246, 0.3) !important;
+                box-shadow: none !important;
+            }
+
+            .form-control:focus {
+                box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2) !important;
+            }
+
+            /* Reduce drop-shadows on icons */
+            [style*="drop-shadow"] {
+                filter: none !important;
+            }
         }
     </style>
 </head>
@@ -2874,6 +2994,11 @@
 
         /* ==================== INTI SISTEM ==================== */
         console.log("Script Siswa Loaded - v1.1");
+        
+        // Deteksi device & browser
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isAndroid = /Android/.test(navigator.userAgent);
+        const isMobile = isIOS || isAndroid;
 
         // ===== GLOBAL: Helper Request Aman (Retry + Exponential Backoff) =====
         // Bisa dipakai di mulaiUjian, submitJawaban, dan fungsi apapun
@@ -2889,19 +3014,27 @@
             }
         };
 
+        // Generate unique device token untuk fitur takeover sesi
+        function generateDeviceToken() {
+            return Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 10);
+        }
+
 
         // Fungsi awal untuk masuk aplikasi dari start-overlay
         function masukAplikasi() {
             const elem = document.documentElement;
-            try {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen().catch(e => console.warn("FS ditolak"));
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) {
-                    elem.msRequestFullscreen();
-                }
-            } catch (e) { console.error("Fullscreen error:", e); }
+            // iOS tidak support fullscreen, skip dengan silent fail
+            if (!isIOS) {
+                try {
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen().catch(e => console.warn("FS ditolak"));
+                    } else if (elem.webkitRequestFullscreen) {
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    }
+                } catch (e) { console.error("Fullscreen error:", e); }
+            }
 
             const overlay = document.getElementById('start-overlay');
             if (overlay) {
@@ -2919,10 +3052,14 @@
         const supabaseKey = 'sb_publishable_4sQqxzUTiVhuf2h4SZCqNA_txpH0J8C';
 
         let db;
-        if (typeof supabase !== 'undefined') {
-            db = supabase.createClient(supabaseUrl, supabaseKey);
-        } else {
-            console.error("Library Supabase gagal dimuat!");
+        try {
+            if (typeof supabase !== 'undefined') {
+                db = supabase.createClient(supabaseUrl, supabaseKey);
+            } else {
+                console.error("Library Supabase gagal dimuat!");
+            }
+        } catch (e) {
+            console.error("Critical Supabase init error:", e);
         }
 
         function formatNamaLengkap(input) {
@@ -2979,6 +3116,7 @@
 
         /* ==================== LOGIKA UJIAN ==================== */
         // --- State variabel utama ---
+        let auto = false;      // Flag untuk auto-submit (waktu habis) vs manual submit
         let p_count = 0;       // Jumlah pelanggaran siswa
         let s_data = [];       // Data soal yang sudah diacak
         let t_start;           // Waktu mulai ujian
@@ -3170,18 +3308,20 @@
             const jitter = Math.random() * 4000;
             await new Promise(resolve => setTimeout(resolve, jitter));
 
-            // Force fullscreen
-            const elem = document.documentElement;
-            try {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) {
-                    elem.msRequestFullscreen();
+            // Force fullscreen (skip di iOS)
+            if (!isIOS) {
+                const elem = document.documentElement;
+                try {
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    } else if (elem.webkitRequestFullscreen) {
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    }
+                } catch (e) {
+                    console.log("Fullscreen request failed:", e);
                 }
-            } catch (e) {
-                console.log("Fullscreen request failed:", e);
             }
             const mapelSelect = document.getElementById('mapel');
             const selectedOption = mapelSelect.options[mapelSelect.selectedIndex];
@@ -3196,6 +3336,7 @@
             const keyDurasi = "durasi_" + idUser;
 
             const startHandler = async (data) => {
+                Swal.close(); // Tutup loading overlay takeover sebelum tampilkan soal
                 tutupModal(); // Tutup modal saat soal sudah siap ditampilkan
 
                 // Initialize stateRagu
@@ -3227,6 +3368,14 @@
                     s_data = indeks.map(idx => data[idx]);
                 }
 
+                // Simpan urutan soal ke Supabase agar konsisten antar device
+                if (window.idRowUjian) {
+                    const urutanTersimpan = localStorage.getItem(keyUrutan);
+                    if (urutanTersimpan) {
+                        safeDbCall(() => db.from('jawaban_ujian').update({ urutan_soal: urutanTersimpan }).eq('id', window.idRowUjian));
+                    }
+                }
+
                 renderSoal(s_data);
                 
                 // Render grid nomor soal
@@ -3234,6 +3383,9 @@
 
                 loadProgress();
                 updateProgressBar();
+
+                // Restore jawaban dari backup Supabase jika localStorage kosong/sebagian hilang
+                restoreFromSupabase();
 
                 // Setup scroll observer to track active question
                 setupScrollObserver();
@@ -3283,29 +3435,73 @@
                     }).catch(e => console.log("Silent error status update:", e));
                 }
 
-                // Auto-sync jawaban essay setiap 60 detik (Sudah Dioptimasi)
-                let lastSyncedEssay = "";
+                // Auto-sync jawaban (PG + Essay) ke Supabase setiap 15 detik
+                let lastSyncedPayload = "";
                 setInterval(async () => {
                     if (window.idRowUjian && document.getElementById('formUjian').style.display === 'block') {
+                        // Cek device token
+                        const myToken = localStorage.getItem("device_token_" + idUser);
+                        if (myToken) {
+                            try {
+                                const { data: tokenCheck, error: tokenErr } = await db.from('jawaban_ujian').select('device_token').eq('id', window.idRowUjian).maybeSingle();
+                                // Network error/null → skip sync, jangan trigger false takeover
+                                if (tokenErr || !tokenCheck) {
+                                    console.log("Auto-sync: Token check gagal (network error?), skip sync.");
+                                    return;
+                                }
+                                if (tokenCheck.device_token !== myToken) {
+                                    showSesiDiambilAlih();
+                                    return;
+                                }
+                            } catch (e) {
+                                console.log("Auto-sync: Token check exception, skip sync.", e);
+                                return;
+                            }
+                        }
+
+                        // Kumpulkan semua jawaban terbaru dari DOM
+                        let jwbSync = [];
+                        let jwbSyncWithIds = [];
                         let jawabanEssaySync = [];
                         s_data.forEach((s, i) => {
-                            if (s[8] === "ESSAY") {
-                                let val = document.getElementById('essay-' + i)?.value || "";
-                                if (val) jawabanEssaySync.push("No." + (i + 1) + ": " + val);
+                            let el = document.getElementsByName('q' + i);
+                            if (!el || !el[0]) return;
+                            let nilai = "";
+                            if (el[0].type === 'radio') {
+                                let sel = Array.from(el).find(r => r.checked);
+                                nilai = sel ? sel.value : "";
+                            } else {
+                                nilai = el[0].value.trim();
+                                if (nilai) jawabanEssaySync.push("No." + (i + 1) + ": " + nilai);
                             }
+                            jwbSync.push(nilai);
+                            jwbSyncWithIds.push({ id: s[6], j: nilai });
                         });
 
+                        // Payload jawaban PG (array JSON) + essay
+                        const currentPayload = JSON.stringify(jwbSync);
                         const currentEssay = jawabanEssaySync.join("\n");
-                        // Hanya kirim ke Supabase JIKA ada perubahan jawaban (hemat limit)
-                        if (currentEssay && currentEssay !== lastSyncedEssay) {
-                            await db.from('jawaban_ujian').update({
-                                jawaban_essay: currentEssay
-                            }).eq('id', window.idRowUjian);
-                            lastSyncedEssay = currentEssay;
-                            console.log("Auto-sync: Jawaban essay berhasil dicadangkan.");
+                        
+                        // Hanya kirim ke Supabase jika ada perubahan (hemat kuota)
+                        if (currentPayload !== lastSyncedPayload) {
+                            const updateData = {};
+                            // Backup jawaban PG (format ID-based)
+                            if (jwbSync.some(v => v !== "")) {
+                                updateData.jawaban_pg = JSON.stringify(jwbSyncWithIds);
+                            }
+                            // Backup jawaban essay
+                            if (currentEssay) {
+                                updateData.jawaban_essay = currentEssay;
+                            }
+                            
+                            if (Object.keys(updateData).length > 0) {
+                                await db.from('jawaban_ujian').update(updateData).eq('id', window.idRowUjian);
+                                lastSyncedPayload = currentPayload;
+                                console.log("Auto-sync: Jawaban dicadangkan ke server.");
+                            }
                         }
                     }
-                }, 60000);
+                }, 15000);
             };
 
             // === REGISTRASI SESI KE DATABASE (sebelum soal diambil) ===
@@ -3313,12 +3509,14 @@
             const { data: existing } = await safeDbCall(() => 
                 db.from('jawaban_ujian')
                     .select('id, status').eq('nama', n).eq('kelas', k).eq('mapel', m)
-                    .not('status', 'like', 'SELESAI%').maybeSingle()
+                    .or('status.is.null,status.not.like.SELESAI%').maybeSingle()
             );
+
+            // Definisikan idUserLocal untuk digunakan di seluruh blok
+            const idUserLocal = n.replace(/\s/g, '') + "_" + m.replace(/\s/g, '');
 
             if (existing) {
                 // Proteksi Login Ganda
-                const idUserLocal = n.replace(/\s/g, '') + "_" + m.replace(/\s/g, '');
                 const adaLocalProgress = localStorage.getItem("sesi_aktif_" + idUserLocal) ||
                     localStorage.getItem("asas_" + idUserLocal) ||
                     localStorage.getItem("waktu_mulai_" + idUserLocal);
@@ -3326,54 +3524,74 @@
                     tutupModal();
                     Swal.fire({
                         title: 'Akses Ditolak!',
-                        html: '<span style="font-size: 15px; color: #475569;">Akun ini sedang digunakan untuk ujian di perangkat/browser lain. Minta pengawas untuk <b>mereset</b> data Anda di Live Monitoring jika ingin mengulang.</span>',
-                        icon: 'error',
-                        confirmButtonColor: '#ef4444',
-                        confirmButtonText: 'Kembali',
-                        customClass: { popup: 'modern-swal-popup', title: 'modern-swal-title', confirmButton: 'modern-swal-btn' }
+                        html: '<span style="font-size: 15px; color: #475569;">Akun ini sedang digunakan untuk ujian di perangkat/browser lain.<br><br>Jika kamu yakin ingin <b>mengambil alih sesi</b> dari perangkat lain, klik tombol di bawah.</span>',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3B82F6',
+                        cancelButtonColor: '#64748b',
+                        confirmButtonText: '<i class="fas fa-arrow-right"></i> Lanjutkan di Perangkat Ini',
+                        cancelButtonText: 'Kembali',
+                        customClass: { popup: 'modern-swal-popup', title: 'modern-swal-title', confirmButton: 'modern-swal-btn', cancelButton: 'modern-swal-btn' }
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'Mengambil Alih Sesi',
+                                html: '<div style="margin:20px auto;border:4px solid #e2e8f0;border-top:4px solid #3B82F6;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;"></div><p style="color:#64748b;margin-top:10px;">Mohon tunggu sebentar...</p>',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                showConfirmButton: false,
+                                customClass: { popup: 'modern-swal-popup', title: 'modern-swal-title' }
+                            });
+                            const newToken = generateDeviceToken();
+                            localStorage.setItem("sesi_aktif_" + idUserLocal, "1");
+                            localStorage.setItem("device_token_" + idUserLocal, newToken);
+                            await db.from('jawaban_ujian').update({ device_token: newToken }).eq('id', existing.id);
+                            // Ambil urutan soal dari Supabase agar konsisten
+                            const { data: urutData } = await db.from('jawaban_ujian').select('urutan_soal').eq('id', existing.id).maybeSingle();
+                            if (urutData && urutData.urutan_soal) {
+                                localStorage.setItem(keyUrutan, urutData.urutan_soal);
+                            }
+                            // Reset disabled state tombol agar mulaiUjian() tidak langsung return
+                            const btnTaken = document.querySelector("#modalPeringatan .btn-modal-confirm");
+                            if (btnTaken) btnTaken.disabled = false;
+                            mulaiUjian(); // Loading Swal akan ditutup di dalam startHandler()
+                        } else {
+                            btnMulai.disabled = false;
+                            btnMulai.innerHTML = 'Ya, Mulai!';
+                        }
                     });
-                    btnMulai.disabled = false;
-                    btnMulai.innerHTML = 'Ya, Mulai!';
                     return;
                 }
                 // Existing session: hanya set ID dan flag lokal, tidak kirim status AKTIF lagi (handled di startHandler)
                 window.idRowUjian = existing.id;
                     localStorage.setItem("sesi_aktif_" + idUserLocal, "1");
+                // Generate & simpan device token untuk sesi ini
+                const existingToken = generateDeviceToken();
+                localStorage.setItem("device_token_" + idUserLocal, existingToken);
+                safeDbCall(() => db.from('jawaban_ujian').update({ device_token: existingToken }).eq('id', existing.id));
                 aktifSignalSent = true;
+                // Restore urutan soal dari Supabase untuk konsistensi antar device
+                try {
+                    const { data: urutData } = await db.from('jawaban_ujian').select('urutan_soal').eq('id', existing.id).maybeSingle();
+                    if (urutData && urutData.urutan_soal) {
+                        localStorage.setItem(keyUrutan, urutData.urutan_soal);
+                    }
+                } catch (e) {
+                    console.warn("Gagal restore urutan soal:", e);
+                }
 
             } else {
-                // Cek jika sesi ada di localStorage tapi sudah di-reset admin di DB
-                const idUserLocal = n.replace(/\s/g, '') + "_" + m.replace(/\s/g, '');
-                const adaLocalProgress = localStorage.getItem("sesi_aktif_" + idUserLocal) ||
-                    localStorage.getItem("asas_" + idUserLocal) ||
-                    localStorage.getItem("waktu_mulai_" + idUserLocal);
-                if (adaLocalProgress) {
-                    tutupModal();
-                    // Tampilkan notifikasi DULU, baru bersihkan localStorage
-                    await Swal.fire({
-                        title: 'Sesi Ujian Direset!',
-                        html: '<span style="font-size: 15px; color: #475569;">Sesi ujian Anda telah dihapus/direset oleh Pengawas. Anda harus mengerjakan ulang dari nomor pertama. Waktu Anda juga telah diatur ulang dari awal.</span>',
-                        icon: 'info',
-                        confirmButtonColor: '#3b82f6',
-                        confirmButtonText: 'Baik, Mengerti',
-                        customClass: { popup: 'modern-swal-popup', title: 'modern-swal-title', confirmButton: 'modern-swal-btn' }
-                    });
-                    // Bersihkan setelah siswa klik "Baik, Mengerti"
-                    localStorage.removeItem("sesi_aktif_" + idUserLocal);
-                    localStorage.removeItem("asas_" + idUserLocal);
-                    localStorage.removeItem("waktu_mulai_" + idUserLocal);
-                    localStorage.removeItem("pelanggaran_" + idUserLocal);
-                    localStorage.removeItem("urutan_" + idUserLocal);
-                    localStorage.removeItem("durasi_" + idUserLocal);
-                    localStorage.removeItem("ragu_" + idUserLocal);
-                    p_count = 0;
-                }
                 // Buat sesi baru
+                const newToken = generateDeviceToken();
+                localStorage.setItem("device_token_" + idUserLocal, newToken);
                 const { data: inserted } = await db.from('jawaban_ujian').insert([{
                     created_at: new Date().toISOString(),
                     nama: n, kelas: k, mapel: m,
-                    skor_pg: null, jawaban_essay: '',
-                    pelanggaran: p_count, durasi: '-'
+                    skor_pg: null, jawaban_essay: '', jawaban_pg: '',
+                    pelanggaran: p_count, durasi: '-',
+                    status: 'MENGERJAKAN',
+                    device_token: newToken,
+                    urutan_soal: ''
                 }]).select('id').single();
                 if (inserted) {
                     window.idRowUjian = inserted.id;
@@ -3491,7 +3709,9 @@
 
         function tutupModal5Menit() {
             document.getElementById('modalPeringatan5Menit').style.display = 'none';
-            try { document.documentElement.requestFullscreen?.(); } catch (e) { }
+            if (!isIOS) {
+                try { document.documentElement.requestFullscreen?.(); } catch (e) { }
+            }
         }
 
         // Modal Waktu Habis + Countdown 5 Detik
@@ -3581,7 +3801,7 @@
                 }
             });
 
-            if (window.MathJax) MathJax.typesetPromise();
+            if (window.MathJax) MathJax.typesetPromise().catch(() => {});
             // Update progress count
             document.getElementById('progress-count').innerText = `0 / ${data.length} soal`;
 
@@ -3605,17 +3825,13 @@
             const soalBaru = document.getElementById('soal-wrap-' + newIndex);
             if (soalBaru) {
                 soalBaru.classList.add('soal-aktif');
-                // Re-trigger animation
-                soalBaru.style.animation = 'none';
-                soalBaru.offsetHeight; // force reflow
-                soalBaru.style.animation = '';
             }
 
             // Scroll ke atas agar soal baru terlihat dari atas
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0, 0);
 
             // MathJax re-render jika ada rumus di soal baru
-            if (window.MathJax) MathJax.typesetPromise();
+            if (window.MathJax) MathJax.typesetPromise().catch(() => {});
 
             updatePaginationUI();
         }
@@ -3625,11 +3841,14 @@
             const idx = window.currentSoalIndex;
 
             // Update tombol Prev/Next
-            document.getElementById('btnPrev').disabled = (idx === 0);
-            document.getElementById('btnNext').disabled = (idx >= total - 1);
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+            if (btnPrev) btnPrev.disabled = (idx === 0);
+            if (btnNext) btnNext.disabled = (idx >= total - 1);
 
             // Update info "X / total"
-            document.getElementById('paginationInfo').innerHTML = `<span>${idx + 1}</span> / ${total}`;
+            const pgInfo = document.getElementById('paginationInfo');
+            if (pgInfo) pgInfo.innerHTML = `<span>${idx + 1}</span> / ${total}`;
 
             // Update status-aktif di grid navigasi
             for (let i = 0; i < total; i++) {
@@ -3656,7 +3875,7 @@
             if (sheet) sheet.classList.add('active');
             if (overlay) {
                 overlay.style.display = 'block';
-                setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+                overlay.style.opacity = '1';
             }
         }
 
@@ -3665,8 +3884,7 @@
             const overlay = document.getElementById('sheet-overlay');
             if (sheet) sheet.classList.remove('active');
             if (overlay) {
-                overlay.style.opacity = '0';
-                setTimeout(() => { overlay.style.display = 'none'; }, 300);
+                overlay.style.display = 'none';
             }
         }
 
@@ -3703,13 +3921,10 @@
             const soalBaru = document.getElementById('soal-wrap-' + idx);
             if (soalBaru) {
                 soalBaru.classList.add('soal-aktif');
-                soalBaru.style.animation = 'none';
-                soalBaru.offsetHeight;
-                soalBaru.style.animation = '';
             }
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (window.MathJax) MathJax.typesetPromise();
+            window.scrollTo(0, 0);
+            if (window.MathJax) MathJax.typesetPromise().catch(() => {});
             updatePaginationUI();
         }
 
@@ -3852,15 +4067,52 @@
         function saveProgress() {
             const n = document.getElementById('nama').value, m = document.getElementById('mapel').value;
             const key = "asas_" + n.replace(/\s/g, '') + "_" + m.replace(/\s/g, '');
-            let jwb = [];
-            s_data.forEach((_, i) => {
+            let jwb = [];           // Untuk localStorage (index-based, backward compat)
+            let jwbBackup = [];     // Untuk Supabase (ID-based, robust antar device)
+            s_data.forEach((s, i) => {
                 let el = document.getElementsByName('q' + i);
+                let nilai = "";
                 if (el[0].type === 'radio') {
                     let sel = Array.from(el).find(r => r.checked);
-                    jwb.push(sel ? sel.value : "");
-                } else { jwb.push(el[0].value); }
+                    nilai = sel ? sel.value : "";
+                } else { nilai = el[0].value; }
+                jwb.push(nilai);
+                jwbBackup.push({ id: s[6], j: nilai });
             });
             localStorage.setItem(key, JSON.stringify(jwb));
+            // Backup ke Supabase (fire-and-forget, debounced) — format ID-based
+            backupToSupabase(jwbBackup);
+        }
+
+        // Debounce: hanya 1 request Supabase per 3 detik
+        let debounceBackupTimer = null;
+        function backupToSupabase(jwb) {
+            if (debounceBackupTimer) clearTimeout(debounceBackupTimer);
+            debounceBackupTimer = setTimeout(() => {
+                if (!window.idRowUjian) return;
+                const hasAnyAnswer = jwb.some(v => v !== undefined && v !== null && v !== "");
+                if (!hasAnyAnswer) return;
+                
+                // Cek device token sebelum backup
+                const n = document.getElementById('nama').value, m = document.getElementById('mapel').value;
+                const idUserLocal = n.replace(/\s/g, '') + "_" + m.replace(/\s/g, '');
+                const myToken = localStorage.getItem("device_token_" + idUserLocal);
+                if (!myToken) return;
+                
+                db.from('jawaban_ujian').select('device_token').eq('id', window.idRowUjian).maybeSingle()
+                    .then(({ data }) => {
+                        if (!data) return;
+                        if (data.device_token !== myToken) {
+                            showSesiDiambilAlih();
+                            return;
+                        }
+                        // Token cocok, lanjut backup
+                        db.from('jawaban_ujian').update({ jawaban_pg: JSON.stringify(jwb) })
+                            .eq('id', window.idRowUjian)
+                            .then(() => console.log("Backup: Jawaban tersimpan ke server."))
+                            .catch(() => {});
+                    });
+            }, 3000);
         }
 
         function loadProgress() {
@@ -3883,6 +4135,61 @@
                     }
                 });
             }
+        }
+
+        // Restore jawaban dari backup Supabase jika localStorage kosong/sebagian hilang
+        async function restoreFromSupabase() {
+            if (!window.idRowUjian) return;
+            // Hanya restore jika urutan_soal ada (konsistensi antar device terjamin)
+            const { data: cekUrutan } = await db.from('jawaban_ujian')
+                .select('urutan_soal')
+                .eq('id', window.idRowUjian)
+                .maybeSingle();
+            if (!cekUrutan || !cekUrutan.urutan_soal) return;
+
+            const { data, error } = await db.from('jawaban_ujian')
+                .select('jawaban_pg')
+                .eq('id', window.idRowUjian)
+                .maybeSingle();
+            if (error || !data || !data.jawaban_pg) return;
+            let jwbBackup;
+            try { jwbBackup = JSON.parse(data.jawaban_pg); } catch (e) { return; }
+            if (!Array.isArray(jwbBackup) || jwbBackup.length === 0) return;
+
+            // Deteksi format: {id, j} (baru) vs string (lama)
+            if (typeof jwbBackup[0] === 'object' && jwbBackup[0] !== null && 'id' in jwbBackup[0]) {
+                // Format baru: pasangkan jawaban berdasarkan ID soal (akurat antar device)
+                jwbBackup.forEach(item => {
+                    if (!item.j) return;
+                    for (let i = 0; i < s_data.length; i++) {
+                        if (String(s_data[i][6]) === String(item.id)) {
+                            let el = document.getElementsByName('q' + i);
+                            if (!el || !el[0]) return;
+                            if (el[0].type === 'radio') {
+                                let sudahTerisi = Array.from(el).find(r => r.checked);
+                                if (!sudahTerisi) {
+                                    let target = Array.from(el).find(r => r.value === item.j);
+                                    if (target) {
+                                        target.checked = true;
+                                        pilihjawaban(i, item.j);
+                                    }
+                                }
+                            } else {
+                                if (!el[0].value.trim()) {
+                                    el[0].value = item.j;
+                                    const event = new Event('input', { bubbles: true });
+                                    el[0].dispatchEvent(event);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                });
+            } else {
+                // Format lama (string array index-based) — skip, order tidak terjamin antar device
+                console.log("Restore: Format jawaban_pg lama (index-based), skip restore demi akurasi.");
+            }
+            updateProgressBar();
         }
 
         // Kirim sinyal ke Supabase (langsung → Realtime ke admin monitoring)
@@ -3963,25 +4270,31 @@
         function tutupModalBelumLengkap() {
             document.getElementById('modalBelumLengkap').style.display = 'none';
             const elem = document.documentElement;
-            try {
+            if (!isIOS) {
+                try {
                 if (elem.requestFullscreen) elem.requestFullscreen();
                 else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
                 else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
             } catch (e) { }
+            }
             // Lompat ke soal kosong pertama (pagination mode)
             if (window.targetScrollBelumLengkap !== undefined) {
                 lompatKeSoal(window.targetScrollBelumLengkap);
             }
+            // Reset auto flag ketika user menutup modal
+            auto = false;
         }
 
         function tutupModalKonfirmasiSubmit() {
             document.getElementById('modalKonfirmasiSubmit').style.display = 'none';
             const elem = document.documentElement;
-            try {
+            if (!isIOS) {
+                try {
                 if (elem.requestFullscreen) elem.requestFullscreen();
                 else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
                 else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
             } catch (e) { }
+            }
         }
 
         function tampilkanErrorJaringan(pesan) {
@@ -3991,12 +4304,46 @@
 
         function tutupModalErrorJaringan() {
             document.getElementById('modalErrorJaringan').style.display = 'none';
+            if (!isIOS) {
+                const elem = document.documentElement;
+                try {
+                    if (elem.requestFullscreen) elem.requestFullscreen();
+                    else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+                    else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+                } catch (e) { }
+            }
+        }
+
+        // ===== FITUR TAKEOVER SESI =====
+        // Muncul di perangkat LAMA ketika pengguna mengambil alih sesi dari perangkat BARU
+        function showSesiDiambilAlih() {
+            // Hentikan timer
+            if (timerInterval) clearInterval(timerInterval);
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            // Sembunyikan form ujian
+            document.getElementById('formUjian').style.display = 'none';
+            document.getElementById('navbar-ujian').style.display = 'none';
+            
             const elem = document.documentElement;
             try {
-                if (elem.requestFullscreen) elem.requestFullscreen();
-                else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-                else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-            } catch (e) { }
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (elem.webkitExitFullscreen) elem.webkitExitFullscreen();
+                else if (elem.msExitFullscreen) elem.msExitFullscreen();
+            } catch (e) {}
+            
+            Swal.fire({
+                title: 'Sesi Diambil Alih!',
+                html: '<span style="font-size: 15px; color: #475569;">Sesi ujian ini telah diambil alih oleh perangkat lain.<br><br>Jika ini bukan tindakanmu, segera hubungi Pengawas Ujian.</span>',
+                icon: 'warning',
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: 'Kembali ke Beranda',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                customClass: { popup: 'modern-swal-popup', title: 'modern-swal-title', confirmButton: 'modern-swal-btn' }
+            }).then(() => {
+                location.reload();
+            });
         }
 
         function downloadJawabanDarurat() {
@@ -4022,7 +4369,16 @@
                 jwbString += `No.${i+1} (${s[8]}): ${nilaiJawaban}\\n`;
             });
 
-            const content = `=== DATA JAWABAN DARURAT ===\\nNama: ${n}\\nKelas: ${k}\\nMapel: ${m}\\nWaktu: ${new Date().toLocaleString('id-ID')}\\n\\n${jwbString}\\n\\n=== JANGAN UBAH TEKS DI BAWAH INI ===\\n${JSON.stringify(payloadJawaban)}`;
+            const content = `=== DATA JAWABAN DARURAT ===
+Nama: ${n}
+Kelas: ${k}
+Mapel: ${m}
+Waktu: ${new Date().toLocaleString('id-ID')}
+
+${jwbString}
+
+=== JANGAN UBAH TEKS DI BAWAH INI ===
+${JSON.stringify(payloadJawaban)}`;
             
             const blob = new Blob([content], { type: 'text/plain' });
             const url = window.URL.createObjectURL(blob);
@@ -4051,10 +4407,9 @@
                 else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
                 else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
             } catch (e) { }
-
-            let jwb = jwbParam;
-            if (!jwb) {
-                jwb = [];
+            
+            let jwb = jwbParam || [];
+            if (!jwbParam) {
                 s_data.forEach((_, i) => {
                     let el = document.getElementsByName('q' + i);
                     let nilaiJawaban = "";
@@ -4127,36 +4482,6 @@
                 });
 
                 const statusSelesai = "SELESAI - " + new Date().toLocaleTimeString('id-ID');
-
-                // 1.5 VALIDASI: CEK APAKAH SESI MASIH VALID (BELUM DI-RESET ADMIN)
-                if (window.idRowUjian) {
-                    try {
-                        const { data: cekSesi, error: errorCek } = await safeDbCall(() =>
-                            db.from('jawaban_ujian').select('id').eq('id', window.idRowUjian).maybeSingle()
-                        );
-                        // Hanya anggap direset jika kueri BERHASIL (!errorCek) TAPI datanya kosong (!cekSesi)
-                        if (!errorCek && !cekSesi) {
-                            document.getElementById('overlaySubmit').style.display = 'none';
-                        btnSelesai.disabled = false;
-                        btnSelesai.innerHTML = `<i class="fas fa-paper-plane"></i><span>Selesai &amp; Kirim Jawaban</span>`;
-                        await Swal.fire({
-                            title: 'Sesi Ujian Tidak Valid!',
-                            html: '<span style="font-size: 15px; color: #475569;">Sesi ujian Anda telah direset/dihapus oleh Pengawas saat ujian berlangsung. Jawaban Anda tidak dapat dikirim. Silakan muat ulang halaman dan login kembali untuk mengulang ujian.</span>',
-                            icon: 'warning',
-                            confirmButtonColor: '#f59e0b',
-                            confirmButtonText: 'Muat Ulang Halaman',
-                            allowOutsideClick: false,
-                            customClass: { popup: 'modern-swal-popup', title: 'modern-swal-title', confirmButton: 'modern-swal-btn' }
-                        });
-                        const idUserReset = n.replace(/\s/g, '') + "_" + m.replace(/\s/g, '');
-                        ['sesi_aktif_', 'asas_', 'waktu_mulai_', 'pelanggaran_', 'urutan_', 'durasi_', 'ragu_'].forEach(prefix => localStorage.removeItem(prefix + idUserReset));
-                        location.reload();
-                        return;
-                        }
-                    } catch (e) {
-                        // Abaikan jika terjadi network error saat cek sesi, biar ditangkap oleh error handling utama di bawah
-                    }
-                }
 
                 // 2. PANGGIL FUNGSI KOREKSI DI DALAM DATABASE (SUPABASE RPC)
                 // Dengan exponential backoff: retry setiap 1s → 2s → 4s → 8s → 16s
@@ -4261,27 +4586,18 @@ let aktifSignalSent = false;
                 max-width: 380px;
                 width: 90%;
                 font-family: 'Plus Jakarta Sans', sans-serif;
-                transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
                 opacity: 0;
                 pointer-events: none;`;
             document.body.appendChild(toast);
 
-            // Slide in
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    toast.style.transform = 'translateX(-50%) translateY(0)';
-                    toast.style.opacity = '1';
-                });
-            });
+            // Show immediately (no animation for performance)
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            toast.style.opacity = '1';
 
-            // Slide out after 2.5s
+            // Remove after 2.5s
             setTimeout(() => {
-                toast.style.transform = 'translateX(-50%) translateY(-80px)';
-                toast.style.opacity = '0';
-                setTimeout(() => {
-                    if (toast.parentNode) toast.parentNode.removeChild(toast);
-                    document._antiCheatToastActive = false;
-                }, 400);
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+                document._antiCheatToastActive = false;
             }, 2500);
         }
 
@@ -4309,6 +4625,15 @@ let aktifSignalSent = false;
             if (window.isDevMode) return;
             event.preventDefault();
             tampilkanWarningAntiCheat('Menempel teks (Paste) tidak diizinkan selama ujian.');
+        });
+
+        // --- Scroll otomatis saat fokus essay agar tidak tertutup keyboard HP ---
+        document.addEventListener('focusin', function(e) {
+            if (e.target && e.target.classList.contains('essay-textarea')) {
+                setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 350);
+            }
         });
 
         // --- Blokir Drag & Drop (mencegah drag-copy teks) ---
@@ -4438,9 +4763,9 @@ let aktifSignalSent = false;
             }, 100);
         });
 
-        // 3. Deteksi Keluar Mode Fullscreen
+        // 3. Deteksi Keluar Mode Fullscreen (Tidak berlaku di iOS)
         document.addEventListener("fullscreenchange", () => {
-            if (window.isDevMode) return;
+            if (window.isDevMode || isIOS) return; // Skip untuk iOS karena tidak support fullscreen
             const isUjianMulai = document.getElementById('formUjian').style.display === 'block';
             if (isUjianMulai && !document.fullscreenElement) {
                 catatPelanggaran(
@@ -4451,9 +4776,10 @@ let aktifSignalSent = false;
         });
 
         // 4. Deteksi Split-Screen / Layar Terbagi (Resize)
+        // Tidak berlaku di iOS karena browser chrome selalu mengurangi viewport
         let resizeTimeout;
         window.addEventListener("resize", () => {
-            if (window.isDevMode) return;
+            if (window.isDevMode || isIOS) return; // Skip di iOS, tidak reliable
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 const isUjianMulai = document.getElementById('formUjian').style.display === 'block';
@@ -4463,8 +4789,10 @@ let aktifSignalSent = false;
                     const screenWidth = window.screen.width;
                     const viewportWidth = window.innerWidth;
                     
-                    // Jika dimensi browser menyusut di bawah 72% dari dimensi fisik layar asli
-                    if (viewportHeight < screenHeight * 0.72 || viewportWidth < screenWidth * 0.72) {
+                    // Deteksi yang lebih intelligent: hanya trigger jika terjadi perubahan drastis
+                    // (skip jika hanya perubahan kecil dari browser chrome/UI)
+                    // Threshold: viewport harus <60% dari screen (bukan 72%) untuk desktop only
+                    if (!isAndroid && (viewportHeight < screenHeight * 0.60 || viewportWidth < screenWidth * 0.60)) {
                         catatPelanggaran(
                             "Layar Terbagi (Split)", 
                             "Deteksi Layar Terbagi (Split-Screen) atau ukuran browser terlalu kecil! Harap gunakan layar penuh tanpa membagi layar."
@@ -4477,18 +4805,20 @@ let aktifSignalSent = false;
         function tutupOverlay() {
             document.getElementById('overlay').style.display = 'none';
 
-            // Paksa masuk mode fullscreen kembali
-            const elem = document.documentElement;
-            try {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) {
-                    elem.msRequestFullscreen();
+            // Paksa masuk mode fullscreen kembali (skip di iOS)
+            if (!isIOS) {
+                const elem = document.documentElement;
+                try {
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                    } else if (elem.webkitRequestFullscreen) {
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    }
+                } catch (e) {
+                    console.log("Fullscreen request failed:", e);
                 }
-            } catch (e) {
-                console.log("Fullscreen request failed:", e);
             }
 
             // Kembalikan status ke AKTIF di database agar admin tahu siswa sudah kembali

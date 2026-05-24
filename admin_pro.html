@@ -920,44 +920,85 @@
             bottom: auto !important;
             left: auto !important;
             z-index: 999999 !important;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            pointer-events: none;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 14px !important;
+            pointer-events: none !important;
+            max-width: calc(100vw - 48px) !important;
+            padding: 0 !important;
         }
 
         .toast {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 20px;
-            border-radius: 16px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-            min-width: 320px;
-            max-width: 440px;
-            pointer-events: auto;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transform: translateX(calc(100% + 24px));
-            opacity: 0;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-                opacity 0.45s ease;
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 14px 16px !important;
+            border-radius: 12px !important;
+            font-size: 0.875rem !important;
+            font-weight: 600 !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+            min-width: 300px !important;
+            max-width: 420px !important;
+            pointer-events: auto !important;
+            position: relative !important;
+            overflow: hidden !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            transform: translateX(calc(100% + 32px)) !important;
+            opacity: 0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease !important;
+            flex-wrap: wrap !important;
         }
 
         .toast.toast-show {
-            transform: translateX(0);
-            opacity: 1;
+            transform: translateX(0) !important;
+            opacity: 1 !important;
         }
 
         .toast.toast-hide {
-            transform: translateX(calc(100% + 24px));
-            opacity: 0;
-            transition: transform 0.4s ease-in, opacity 0.4s ease-in;
+            transform: translateX(calc(100% + 32px)) !important;
+            opacity: 0 !important;
+            transition: transform 0.4s ease-in, opacity 0.4s ease-in !important;
+        }
+
+        .toast-content {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            flex: 1 !important;
+            min-width: 0 !important;
+        }
+
+        .toast-message {
+            flex: 1 !important;
+            line-height: 1.4 !important;
+            word-break: break-word !important;
+        }
+
+        .toast-actions {
+            display: flex !important;
+            gap: 8px !important;
+            flex-shrink: 0 !important;
+            margin-left: 12px !important;
+        }
+
+        .toast-btn {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: inherit !important;
+            padding: 6px 12px !important;
+            border-radius: 6px !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            white-space: nowrap !important;
+        }
+
+        .toast-btn:hover {
+            background: rgba(255, 255, 255, 0.25) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
         }
 
         .toast-success {
@@ -2388,7 +2429,7 @@
                         <!-- Action -->
                         <div style="display:flex; justify-content:flex-end; gap:10px;">
                             <button class="btn btn-outline" type="button" onclick="resetFormManual()"><i
-                                    class="fas fa-redo"></i> Reset</button>
+                                    class="fas fa-eraser"></i> Bersihkan Form</button>
                             <button class="btn btn-primary" type="button" id="btn-simpan-manual"
                                 onclick="simpanSoalManual()" style="min-width:150px;">
                                 <i class="fas fa-save"></i> Simpan Soal
@@ -2600,18 +2641,14 @@
             <!-- HALAMAN: LIVE MONITORING -->
             <section id="monitoring" class="page-section">
                 <div class="card-panel">
-                    <div class="panel-header">
-                        <div>
-                            <h3 class="panel-title">🔴 Live Monitoring Ujian</h3>
-                            <p style="color:var(--text-muted); font-size:0.8rem; margin-top:4px;">
-                                <i class="fas fa-bolt" style="color:#f59e0b;"></i> <strong>Real-time</strong> via
-                                Supabase
-                            </p>
-                        </div>
-                        <div style="display:flex; gap:10px; align-items:center;">
+                    <div class="panel-header" style="position:relative; padding-left:0; padding-right:0;">
+                        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; width:100%; justify-content:flex-end;">
+                            <!-- Group 1: Pencarian & Filter -->
                             <input type="text" id="search-nama-monitoring" class="form-control"
                                 placeholder="Cari Nama Siswa..." style="width:180px; padding:8px 12px; font-size:13px;"
                                 oninput="currentMonPage=1; loadMonitoring()">
+                            <button class="btn btn-outline" style="background:rgba(139,92,246,0.08); border-color:rgba(139,92,246,0.3); color:#a78bfa;" title="Hapus semua filter" onclick="clearFilterMonitoring()"><i class="fas fa-filter-circle-xmark"></i> Clear Filter</button>
+                            <button class="btn btn-outline" style="background:rgba(100,200,255,0.08); border-color:rgba(100,200,255,0.3); color:#64b5f6;" title="Hapus sorting" onclick="clearSortMonitoring()"><i class="fas fa-sort"></i> Clear Sort</button>
                             <select id="filter-mapel-monitoring" class="form-control"
                                 style="width:160px; padding:8px 12px; font-size:13px;"
                                 onchange="currentMonPage=1; loadMonitoring()">
@@ -2622,10 +2659,11 @@
                                 onchange="currentMonPage=1; loadMonitoring()">
                                 <option value="">Semua Kelas</option>
                             </select>
+                            <!-- Group 2: Aksi -->
                             <button class="btn btn-outline" onclick="loadMonitoring()"><i class="fas fa-sync-alt"></i>
                                 Refresh</button>
                             <button class="btn btn-danger" onclick="bulkActionMonitoring('delete')"><i
-                                    class="fas fa-trash"></i> Reset Terpilih</button>
+                                    class="fas fa-trash"></i> Hapus Data Terpilih</button>
                         </div>
                     </div>
 
@@ -2636,22 +2674,22 @@
                     </div>
 
                     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px;">
-                        <div onclick="setMonStatus('AKTIF')"
-                            style="cursor:pointer; background:rgba(16, 185, 129, 0.04); border:1px solid rgba(16, 185, 129, 0.25); border-radius:10px; padding:16px; text-align:center; transition:0.3s; backdrop-filter: blur(5px);"
+                        <div id="mon-card-aktif" onclick="setMonStatus('AKTIF')"
+                            style="cursor:pointer; background:rgba(16, 185, 129, 0.04); border:2px solid rgba(16, 185, 129, 0.25); border-radius:10px; padding:16px; text-align:center; transition:0.3s; backdrop-filter: blur(5px);"
                             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(16, 185, 129, 0.15)';"
                             onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
                             <div style="font-size:2rem; font-weight:700; color:#34d399;" id="mon-aktif">-</div>
                             <div style="font-size:0.8rem; color:#34d399; font-weight:600; margin-top:4px;">🟢 Sedang Mengerjakan</div>
                         </div>
-                        <div onclick="setMonStatus('SELESAI')"
-                            style="cursor:pointer; background:rgba(59, 130, 246, 0.04); border:1px solid rgba(59, 130, 246, 0.25); border-radius:10px; padding:16px; text-align:center; transition:0.3s; backdrop-filter: blur(5px);"
+                        <div id="mon-card-selesai" onclick="setMonStatus('SELESAI')"
+                            style="cursor:pointer; background:rgba(59, 130, 246, 0.04); border:2px solid rgba(59, 130, 246, 0.25); border-radius:10px; padding:16px; text-align:center; transition:0.3s; backdrop-filter: blur(5px);"
                             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.15)';"
                             onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
                             <div style="font-size:2rem; font-weight:700; color:#60a5fa;" id="mon-selesai">-</div>
                             <div style="font-size:0.8rem; color:#60a5fa; font-weight:600; margin-top:4px;">✅ Sudah Selesai</div>
                         </div>
-                        <div onclick="setMonStatus('PELANGGARAN')"
-                            style="cursor:pointer; background:rgba(239, 68, 68, 0.04); border:1px solid rgba(239, 68, 68, 0.25); border-radius:10px; padding:16px; text-align:center; transition:0.3s; backdrop-filter: blur(5px);"
+                        <div id="mon-card-pelanggaran" onclick="setMonStatus('PELANGGARAN')"
+                            style="cursor:pointer; background:rgba(239, 68, 68, 0.04); border:2px solid rgba(239, 68, 68, 0.25); border-radius:10px; padding:16px; text-align:center; transition:0.3s; backdrop-filter: blur(5px);"
                             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(239, 68, 68, 0.15)';"
                             onmouseout="this.style.transform='none'; this.style.boxShadow='none';">
                             <div style="font-size:2rem; font-weight:700; color:#f87171;" id="mon-pelanggaran">-</div>
@@ -2665,11 +2703,21 @@
                                 <th style="width:40px; text-align:center;"><input type="checkbox"
                                         id="select-all-monitoring" onchange="toggleSelectAll('monitoring')"></th>
                                 <th style="text-align:center;">No</th>
-                                <th>Nama Siswa</th>
-                                <th style="text-align:center;">Kelas / Mapel</th>
-                                <th style="text-align:center;">Status</th>
-                                <th style="text-align:center; min-width:100px; white-space:nowrap;">Pelanggaran</th>
-                                <th style="text-align:center;">Waktu Mulai</th>
+                                <th style="cursor:pointer; user-select:none; transition:background 0.2s;" onclick="toggleSortMonitoring('nama')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Nama Siswa <span id="sort-indicator-mon-nama" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
+                                <th style="cursor:pointer; text-align:center; user-select:none; transition:background 0.2s; min-width:150px;" onclick="toggleSortMonitoring('kelas')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Kelas / Mapel <span id="sort-indicator-mon-kelas" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
+                                <th style="cursor:pointer; text-align:center; user-select:none; transition:background 0.2s;" onclick="toggleSortMonitoring('status')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Status <span id="sort-indicator-mon-status" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
+                                <th style="cursor:pointer; text-align:center; min-width:100px; white-space:nowrap; user-select:none; transition:background 0.2s;" onclick="toggleSortMonitoring('pelanggaran')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Pelanggaran <span id="sort-indicator-mon-pelanggaran" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
+                                <th style="cursor:pointer; text-align:center; user-select:none; transition:background 0.2s;" onclick="toggleSortMonitoring('waktu')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Waktu Mulai <span id="sort-indicator-mon-waktu" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
                                 <th style="text-align:center;">Aksi</th>
                             </tr>
                         </thead>
@@ -2715,6 +2763,8 @@
                                 onchange="currentLapPage=1; loadNilaiSiswa()">
                                 <option value="">Semua Kelas</option>
                             </select>
+                            <button class="btn btn-outline" style="background:rgba(139,92,246,0.08); border-color:rgba(139,92,246,0.3); color:#a78bfa; padding:6px 10px; font-size:13px;" title="Hapus semua filter" onclick="clearFilterLaporan()"><i class="fas fa-filter-circle-xmark"></i> Clear Filter</button>
+                            <button class="btn btn-outline" style="background:rgba(100,200,255,0.08); border-color:rgba(100,200,255,0.3); color:#64b5f6; padding:6px 10px; font-size:13px;" title="Hapus sorting" onclick="clearSortLaporan()"><i class="fas fa-sort"></i> Clear Sort</button>
                             <button class="btn btn-outline" onclick="loadNilaiSiswa()"><i class="fas fa-sync-alt"></i>
                                 Refresh</button>
                             <button class="btn btn-primary" onclick="exportExcel()"><i class="fas fa-file-export"></i>
@@ -2731,11 +2781,21 @@
                                 <th style="width:40px; text-align:center;"><input type="checkbox"
                                         id="select-all-laporan" onchange="toggleSelectAll('laporan')"></th>
                                 <th style="text-align:center;">No</th>
-                                <th style="text-align:left;">Nama Siswa</th>
-                                <th style="text-align:center;">Kls/Mapel</th>
-                                <th style="text-align:center;">Skor PG</th>
-                                <th style="text-align:center;">Durasi & Pelanggaran</th>
-                                <th style="text-align:center;">Status</th>
+                                <th style="cursor:pointer; text-align:left; user-select:none; transition:background 0.2s;" onclick="toggleSortLaporan('nama')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Nama Siswa <span id="sort-indicator-lap-nama" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
+                                <th style="cursor:pointer; text-align:center; user-select:none; transition:background 0.2s; min-width:120px;" onclick="toggleSortLaporan('kelas')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Kls/Mapel <span id="sort-indicator-lap-kelas" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
+                                <th style="cursor:pointer; text-align:center; user-select:none; transition:background 0.2s; min-width:80px;" onclick="toggleSortLaporan('skor')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Skor PG <span id="sort-indicator-lap-skor" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
+                                <th style="cursor:pointer; text-align:center; user-select:none; transition:background 0.2s; min-width:160px;" onclick="toggleSortLaporan('durasi')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Durasi & Pelanggaran <span id="sort-indicator-lap-durasi" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
+                                <th style="cursor:pointer; text-align:center; user-select:none; transition:background 0.2s;" onclick="toggleSortLaporan('status')" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
+                                    Status <span id="sort-indicator-lap-status" style="font-size:11px; margin-left:4px;"></span>
+                                </th>
                                 <th style="text-align:center;">Aksi</th>
                             </tr>
                         </thead>
@@ -2907,6 +2967,28 @@
 
         function setMonStatus(status) {
             currentMonStatus = status;
+            // Update visual highlight untuk cards
+            const cards = {
+                'AKTIF': document.getElementById('mon-card-aktif'),
+                'SELESAI': document.getElementById('mon-card-selesai'),
+                'PELANGGARAN': document.getElementById('mon-card-pelanggaran')
+            };
+            
+            // Reset semua cards ke border normal
+            Object.values(cards).forEach(card => {
+                if (card) {
+                    card.style.borderWidth = '2px';
+                    card.style.background = card === cards[status] ? 
+                        (status === 'AKTIF' ? 'rgba(16, 185, 129, 0.1)' : status === 'SELESAI' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(239, 68, 68, 0.1)') 
+                        : (status === 'AKTIF' ? 'rgba(16, 185, 129, 0.04)' : status === 'SELESAI' ? 'rgba(59, 130, 246, 0.04)' : 'rgba(239, 68, 68, 0.04)');
+                }
+            });
+            
+            // Highlight card yang aktif
+            if (cards[status]) {
+                cards[status].style.borderWidth = '3px';
+            }
+            
             currentMonPage = 1;
             loadMonitoring();
         }
@@ -3034,13 +3116,17 @@
             });
             globalDataJawaban = filteredData; // Simpan ke global agar bisa dianalisis
 
+            // Apply Sorting
+            tempLaporanData = filteredData;
+            const sortedData = sortLaporanData(filteredData);
+
             // 2. Pagination Logic
-            const totalItems = filteredData.length;
+            const totalItems = sortedData.length;
             const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
             if (currentLapPage > totalPages) currentLapPage = totalPages;
 
             const startIdx = (currentLapPage - 1) * ITEMS_PER_PAGE;
-            const paginatedData = filteredData.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+            const paginatedData = sortedData.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
             const pageInfo = document.getElementById('lap-page-info');
             if (pageInfo) pageInfo.innerText = `Menampilkan ${startIdx + 1}-${Math.min(startIdx + ITEMS_PER_PAGE, totalItems)} dari ${totalItems} siswa`;
@@ -3160,10 +3246,27 @@
 
         async function hapusSatuSoal(id) {
             if (!await asyncConfirm("Yakin ingin menghapus satu soal ini secara permanen?", "Hapus Soal?")) return;
+            
+            // Simpan data soal sebelum dihapus untuk undo
+            const { data: savedSoal, error: fetchError } = await db.from('bank_soal').select('*').eq('id', id).single();
+            
             const { error } = await db.from('bank_soal').delete().eq('id', id);
             if (error) showToast("Gagal menghapus: " + error.message, 'error');
             else {
-                showToast("Soal berhasil dihapus", 'success');
+                // Buat undo function
+                const undoDelete = async () => {
+                    if (savedSoal) {
+                        const { error: insertError } = await db.from('bank_soal').insert([savedSoal]);
+                        if (insertError) {
+                            showToast("Gagal membatalkan penghapusan: " + insertError.message, 'error');
+                        } else {
+                            showToast("Soal berhasil dipulihkan", 'success');
+                            loadPreviewSoal();
+                        }
+                    }
+                };
+                
+                showToast("Soal berhasil dihapus", 'success', undoDelete, 'Batalkan');
                 loadPreviewSoal();
             }
         }
@@ -3184,11 +3287,22 @@
 
             if (!await asyncConfirm(`Hapus <b>SEMUA SOAL</b> untuk mata pelajaran <b>"${mapel}"</b>?<br>Tindakan ini menghapus seluruh data bank soal untuk mapel ini.`, "Hapus Seluruh Mapel?")) return;
 
+            // Fetch data sebelum delete untuk undo
+            const { data: backupSoal } = await db.from('bank_soal').select('*').eq('mapel', mapel);
+            
             const { error } = await db.from('bank_soal').delete().eq('mapel', mapel);
             if (error) {
                 showToast("Gagal menghapus mapel: " + error.message, 'error');
             } else {
-                showToast(`Seluruh soal untuk mapel "${mapel}" berhasil dihapus`, 'success');
+                const undoFunc = async () => {
+                    if (backupSoal && backupSoal.length > 0) {
+                        await db.from('bank_soal').insert(backupSoal);
+                        populatePreviewMapel();
+                        showToast(`Soal mapel "${mapel}" berhasil di-restore`, 'success');
+                    }
+                };
+                
+                showToast(`Seluruh soal untuk mapel "${mapel}" berhasil dihapus`, 'success', undoFunc, 'Undo');
                 populatePreviewMapel();
             }
         }
@@ -3212,12 +3326,26 @@
                     return;
                 }
 
-                if (!await asyncConfirm(`Hapus <b>${mapels.length} mata pelajaran</b> terpilih beserta seluruh soalnya?<br>Tindakan ini tidak bisa dibatalkan.`, "Hapus Bank Soal?")) return;
+                const confirmed = await asyncConfirm(`Hapus <b>${mapels.length} mata pelajaran</b> terpilih beserta seluruh soalnya?<br>Tindakan ini tidak bisa dibatalkan.`, "Hapus Bank Soal?");
+                if (!confirmed) {
+                    showToast("Hapus mata pelajaran dibatalkan", 'info');
+                    return;
+                }
 
+                // Fetch data sebelum delete untuk undo
+                const { data: backupData } = await db.from('bank_soal').select('*').in('mapel', mapels);
                 const { error } = await db.from('bank_soal').delete().in('mapel', mapels);
                 if (error) showToast("Gagal menghapus: " + error.message, 'error');
                 else {
-                    showToast(`${mapels.length} mata pelajaran berhasil dihapus`, 'success');
+                    const undoFunc = async () => {
+                        if (backupData && backupData.length > 0) {
+                            await db.from('bank_soal').insert(backupData);
+                            populatePreviewMapel();
+                            showToast(`${mapels.length} mata pelajaran berhasil di-restore`, 'success');
+                        }
+                    };
+                    
+                    showToast(`${mapels.length} mata pelajaran berhasil dihapus`, 'success', undoFunc, 'Undo');
                     populatePreviewMapel();
                 }
             }
@@ -3700,11 +3828,32 @@
         }
 
         async function hapusDataNilai(id, nama) {
-            if (!await asyncConfirm(`Hapus data sesi/nilai siswa "${nama}"?<br>Siswa ini nantinya bisa login ulang dari awal.`, "Hapus Data Siswa?")) return;
+            if (!await asyncConfirm(`Hapus data sesi/jawaban siswa "${nama}"?<br>Anda akan memiliki waktu untuk membatalkan tindakan ini.`, "Hapus Data Siswa?")) return;
+            
+            // Simpan data sebelum dihapus untuk undo
+            const { data: savedData, error: fetchError } = await db.from('jawaban_ujian').select('*').eq('id', id).single();
+            
             const { error } = await db.from('jawaban_ujian').delete().eq('id', id);
             if (error) showToast("Gagal menghapus: " + error.message, 'error');
             else {
-                showToast(`Data sesi "${nama}" berhasil dihapus`, 'success');
+                // Buat undo function
+                const undoDelete = async () => {
+                    if (savedData) {
+                        const { error: insertError } = await db.from('jawaban_ujian').insert([savedData]);
+                        if (insertError) {
+                            showToast("Gagal membatalkan penghapusan: " + insertError.message, 'error');
+                        } else {
+                            showToast(`Data siswa "${nama}" berhasil dipulihkan`, 'success');
+                            if (document.getElementById('monitoring').classList.contains('active')) {
+                                loadMonitoring();
+                            } else {
+                                loadNilaiSiswa();
+                            }
+                        }
+                    }
+                };
+                
+                showToast(`Data siswa "${nama}" berhasil dihapus`, 'success', undoDelete, 'Batalkan');
                 if (document.getElementById('monitoring').classList.contains('active')) {
                     loadMonitoring();
                 } else {
@@ -3725,9 +3874,24 @@
             if (ids.length === 0) return showToast("Pilih minimal satu siswa!", 'info');
 
             if (action === 'delete') {
-                if (!await asyncConfirm(`Hapus/Reset data sesi <b>${ids.length} siswa</b> terpilih?<br>Siswa akan dipaksa keluar dan bisa ujian dari awal.`, "Reset Terpilih?")) return;
+                const confirmed = await asyncConfirm(`Hapus data sesi <b>${ids.length} siswa</b> terpilih?<br>Tindakan ini tidak bisa dibatalkan.`, "Hapus Data Siswa?");
+                if (!confirmed) {
+                    showToast("Hapus data dibatalkan", 'info');
+                    return;
+                }
+                // Fetch data sebelum delete untuk undo
+                const { data: backupData } = await db.from('jawaban_ujian').select('*').in('id', ids);
                 await db.from('jawaban_ujian').delete().in('id', ids);
-                showToast(`${ids.length} sesi berhasil direset`, 'success');
+                
+                const undoFunc = async () => {
+                    if (backupData && backupData.length > 0) {
+                        await db.from('jawaban_ujian').insert(backupData);
+                        loadMonitoring();
+                        showToast(`${ids.length} data siswa berhasil di-restore`, 'success');
+                    }
+                };
+                
+                showToast(`${ids.length} data siswa berhasil dihapus`, 'success', undoFunc, 'Undo');
                 loadMonitoring();
             }
         }
@@ -3737,9 +3901,24 @@
             if (ids.length === 0) return showToast("Pilih minimal satu jadwal!", 'info');
 
             if (action === 'delete') {
-                if (!await asyncConfirm(`Hapus <b>${ids.length} jadwal</b> terpilih?<br>Tindakan ini tidak bisa dibatalkan.`, "Hapus Jadwal?")) return;
+                const confirmed = await asyncConfirm(`Hapus <b>${ids.length} jadwal</b> terpilih?<br>Tindakan ini tidak bisa dibatalkan.`, "Hapus Jadwal?");
+                if (!confirmed) {
+                    showToast("Hapus jadwal dibatalkan", 'info');
+                    return;
+                }
+                // Fetch data sebelum delete untuk undo
+                const { data: backupData } = await db.from('jadwal_ujian').select('*').in('id', ids);
                 await db.from('jadwal_ujian').delete().in('id', ids);
-                showToast(`${ids.length} jadwal berhasil dihapus`, 'success');
+                
+                const undoFunc = async () => {
+                    if (backupData && backupData.length > 0) {
+                        await db.from('jadwal_ujian').insert(backupData);
+                        loadJadwal();
+                        showToast(`${ids.length} jadwal berhasil di-restore`, 'success');
+                    }
+                };
+                
+                showToast(`${ids.length} jadwal berhasil dihapus`, 'success', undoFunc, 'Undo');
             } else {
                 const status = (action === 'active');
                 await db.from('jadwal_ujian').update({ is_aktif: status }).in('id', ids);
@@ -3753,9 +3932,24 @@
             if (ids.length === 0) return showToast("Pilih minimal satu soal!", 'info');
 
             if (action === 'delete') {
-                if (!await asyncConfirm(`Hapus <b>${ids.length} soal</b> terpilih secara permanen?`, "Hapus Bank Soal?")) return;
+                const confirmed = await asyncConfirm(`Hapus <b>${ids.length} soal</b> terpilih secara permanen?`, "Hapus Bank Soal?");
+                if (!confirmed) {
+                    showToast("Hapus soal dibatalkan", 'info');
+                    return;
+                }
+                // Fetch data sebelum delete untuk undo
+                const { data: backupData } = await db.from('bank_soal').select('*').in('id', ids);
                 await db.from('bank_soal').delete().in('id', ids);
-                showToast(`${ids.length} soal berhasil dihapus`, 'success');
+                
+                const undoFunc = async () => {
+                    if (backupData && backupData.length > 0) {
+                        await db.from('bank_soal').insert(backupData);
+                        loadPreviewSoal();
+                        showToast(`${ids.length} soal berhasil di-restore`, 'success');
+                    }
+                };
+                
+                showToast(`${ids.length} soal berhasil dihapus`, 'success', undoFunc, 'Undo');
                 loadPreviewSoal();
             } else if (action === 'move') {
                 const actionType = await Swal.fire({
@@ -3835,9 +4029,24 @@
         async function bulkActionLaporan(action) {
             const ids = Array.from(document.querySelectorAll('.cb-laporan:checked')).map(cb => cb.value);
             if (ids.length === 0) return showToast("Pilih minimal satu data!", 'info');
-            if (!await asyncConfirm(`Hapus <b>${ids.length} data nilai</b> terpilih?`, "Hapus Nilai Siswa?")) return;
+            const confirmed = await asyncConfirm(`Hapus <b>${ids.length} data nilai</b> terpilih?`, "Hapus Nilai Siswa?");
+            if (!confirmed) {
+                showToast("Hapus nilai siswa dibatalkan", 'info');
+                return;
+            }
+            // Fetch data sebelum delete untuk undo
+            const { data: backupData } = await db.from('jawaban_ujian').select('*').in('id', ids);
             await db.from('jawaban_ujian').delete().in('id', ids);
-            showToast(`${ids.length} data nilai berhasil dihapus`, 'success');
+            
+            const undoFunc = async () => {
+                if (backupData && backupData.length > 0) {
+                    await db.from('jawaban_ujian').insert(backupData);
+                    loadNilaiSiswa();
+                    showToast(`${ids.length} data nilai berhasil di-restore`, 'success');
+                }
+            };
+            
+            showToast(`${ids.length} data nilai berhasil dihapus`, 'success', undoFunc, 'Undo');
             loadNilaiSiswa();
         }
 
@@ -5605,10 +5814,22 @@ Kisi-kisi harus:
 
         async function hapusJadwal(id, mapel) {
             if (!await asyncConfirm(`Hapus jadwal <b>"${mapel}"</b>?<br>Tindakan ini tidak bisa dibatalkan.`, "Hapus Jadwal?")) return;
+            
+            // Fetch data sebelum delete untuk undo
+            const { data: savedJadwal } = await db.from('jadwal_ujian').select('*').eq('id', id).single();
+            
             const { error } = await db.from('jadwal_ujian').delete().eq('id', id);
             if (error) showToast('Gagal menghapus: ' + error.message, 'error');
             else {
-                showToast(`Jadwal "${mapel}" berhasil dihapus`, 'success');
+                const undoFunc = async () => {
+                    if (savedJadwal) {
+                        await db.from('jadwal_ujian').insert([savedJadwal]);
+                        loadJadwal();
+                        showToast(`Jadwal "${mapel}" berhasil di-restore`, 'success');
+                    }
+                };
+                
+                showToast(`Jadwal "${mapel}" berhasil dihapus`, 'success', undoFunc, 'Undo');
                 loadJadwal();
             }
         }
@@ -5734,7 +5955,10 @@ Kisi-kisi harus:
         // Durasi tampil: 6 detik, animasi seamless slide-in → progress → slide-out
         const TOAST_DURATION = 6000; // ms
 
-        function showToast(message, type = 'success') {
+        // Undo history untuk delete actions - simpan {action, toastElement}
+        const undoHistory = new Map();
+
+        function showToast(message, type = 'success', undoAction = null, undoLabel = 'Undo') {
             const icons = {
                 success: 'fa-check-circle',
                 error: 'fa-times-circle',
@@ -5749,17 +5973,46 @@ Kisi-kisi harus:
             const MAX_TOASTS = 4;
             if (container.children.length >= MAX_TOASTS) {
                 // Hapus langsung notifikasi yang paling lama
-                container.firstElementChild.remove();
+                const first = container.firstElementChild;
+                if (first) {
+                    first.classList.remove('toast-show');
+                    first.classList.add('toast-hide');
+                    first.addEventListener('transitionend', () => {
+                        if (first.parentElement) first.remove();
+                    }, { once: true });
+                }
             }
 
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
-            toast.innerHTML = `
-                <i class="fas ${icons[type] || 'fa-info-circle'}" style="flex-shrink:0; font-size:1.1rem;"></i>
-                <span style="flex:1; line-height:1.4;">${message}</span>
-                <div class="toast-bar" style="animation: toastBarShrink ${TOAST_DURATION}ms linear forwards;"></div>
+            
+            let contentHTML = `
+                <div class="toast-content">
+                    <i class="fas ${icons[type] || 'fa-info-circle'}" style="flex-shrink:0; font-size:1.1rem;"></i>
+                    <span class="toast-message">${message}</span>
+                </div>
+            `;
+            
+            let undoId = null;
+            if (undoAction && type === 'success') {
+                undoId = 'undo_' + Date.now();
+                contentHTML += `
+                    <div class="toast-actions">
+                        <button class="toast-btn" onclick="executeUndo('${undoId}')" style="color: #fcd34d;"><i class="fas fa-undo" style="margin-right:4px;"></i>${undoLabel}</button>
+                    </div>
                 `;
+            }
+            
+            toast.innerHTML = contentHTML + `
+                <div class="toast-bar" style="animation: toastBarShrink ${TOAST_DURATION}ms linear forwards;"></div>
+            `;
             container.appendChild(toast);
+
+            // Simpan undoId di dataset untuk tracking
+            if (undoId) {
+                toast.dataset.undoId = undoId;
+                undoHistory.set(undoId, { action: undoAction, toastElement: toast });
+            }
 
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
@@ -5768,17 +6021,44 @@ Kisi-kisi harus:
             });
 
             const hideDelay = setTimeout(() => {
-                toast.classList.remove('toast-show');
-                toast.classList.add('toast-hide');
-                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+                if (toast.parentElement) {
+                    toast.classList.remove('toast-show');
+                    toast.classList.add('toast-hide');
+                    toast.addEventListener('transitionend', () => {
+                        if (toast.parentElement) toast.remove();
+                        // Cleanup undo history saat toast dihapus
+                        if (undoId) undoHistory.delete(undoId);
+                    }, { once: true });
+                }
             }, TOAST_DURATION);
 
-            toast.addEventListener('click', () => {
-                clearTimeout(hideDelay);
-                toast.classList.remove('toast-show');
-                toast.classList.add('toast-hide');
-                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-            });
+            // Prevent closing when interacting with undo button
+            const actions = toast.querySelector('.toast-actions');
+            if (actions) {
+                actions.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    clearTimeout(hideDelay);
+                });
+            }
+        }
+
+        function executeUndo(undoId) {
+            const undoData = undoHistory.get(undoId);
+            if (undoData) {
+                const { action, toastElement } = undoData;
+                // Jalankan undo action
+                action();
+                // Hapus toast element
+                if (toastElement && toastElement.parentElement) {
+                    toastElement.classList.remove('toast-show');
+                    toastElement.classList.add('toast-hide');
+                    toastElement.addEventListener('transitionend', () => {
+                        if (toastElement.parentElement) toastElement.remove();
+                    }, { once: true });
+                }
+                // Cleanup history
+                undoHistory.delete(undoId);
+            }
         }
 
         // --- Custom Confirm Modal (Async) ---
@@ -5848,7 +6128,10 @@ Kisi-kisi harus:
                             const prevPlg = violationTracker.get(s.id) || 0;
 
                             if (currentPlg > prevPlg) {
-                                showToast(`Pelanggaran! ${s.nama} (${s.kelas}) — ${currentPlg}x`, 'plg');
+                                // Only show notification if admin is actively on admin_pro.html page
+                                if (!document.hidden) {
+                                    showToast(`Pelanggaran! ${s.nama} (${s.kelas}) — ${currentPlg}x`, 'plg');
+                                }
                                 violationTracker.set(s.id, currentPlg);
                             }
 
@@ -5985,13 +6268,17 @@ Kisi-kisi harus:
                 return true;
             });
 
+            // 1.5 Apply Sorting
+            tempMonitoringData = filteredData;
+            const sortedData = sortMonitoringData(filteredData);
+
             // 2. Pagination Logic
-            const totalItems = filteredData.length;
+            const totalItems = sortedData.length;
             const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
             if (currentMonPage > totalPages) currentMonPage = totalPages;
 
             const startIdx = (currentMonPage - 1) * ITEMS_PER_PAGE;
-            const paginatedData = filteredData.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+            const paginatedData = sortedData.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
             document.getElementById('mon-page-info').innerText = `Menampilkan ${startIdx + 1}-${Math.min(startIdx + ITEMS_PER_PAGE, totalItems)} dari ${totalItems} siswa`;
 
@@ -6039,8 +6326,8 @@ Kisi-kisi harus:
                         <td style="text-align:center;">${plgBadge}</td>
                         <td style="text-align:center; font-size:12px; color:var(--text-muted);">${waktu}</td>
                         <td style="text-align:center;">
-                            <button class="btn btn-outline" style="padding:4px 8px; font-size:11px; color:#ef4444; border-color:rgba(239, 68, 68, 0.3);" onclick="hapusDataNilai(${s.id}, '${s.nama}')" title="Reset/Hapus Sesi Siswa">
-                                <i class="fas fa-trash"></i> Reset
+                            <button class="btn btn-outline" style="padding:4px 8px; font-size:11px; color:#ef4444; border-color:rgba(239, 68, 68, 0.3);" onclick="hapusDataNilai(${s.id}, '${s.nama}')" title="Hapus Data Siswa">
+                                <i class="fas fa-trash"></i> Hapus
                             </button>
                         </td>
                     </tr>`;
@@ -6498,6 +6785,7 @@ Kisi-kisi harus:
 
             let successCount = 0;
             let failCount = 0;
+            let failDetails = [];
             
             Swal.fire({
                 title: 'Mengoreksi Jawaban...',
@@ -6511,7 +6799,10 @@ Kisi-kisi harus:
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 try {
-                    const text = await file.text();
+                    let text = await file.text();
+                    
+                    // Normalize: convert literal \n to actual newlines (untuk file format lama)
+                    text = text.replace(/\\n/g, '\n');
                     
                     // Ekstrak metadata
                     const namaMatch = text.match(/Nama:\s*(.+)/);
@@ -6522,6 +6813,8 @@ Kisi-kisi harus:
                     const n = namaMatch[1].trim();
                     const k = kelasMatch[1].trim();
                     const m = mapelMatch[1].trim();
+
+                    console.log("Parsed metadata:", { nama: n, kelas: k, mapel: m });
 
                     // Ekstrak JSON
                     const jsonSplit = text.split('=== JANGAN UBAH TEKS DI BAWAH INI ===');
@@ -6538,7 +6831,8 @@ Kisi-kisi harus:
                     } else {
                         const { data: inserted, error: errIns } = await db.from('jawaban_ujian').insert([{
                             nama: n, kelas: k, mapel: m, status: 'AKTIF (OFFLINE)',
-                            skor_pg: null, jawaban_essay: '', pelanggaran: 0, durasi: '-'
+                            skor_pg: null, jawaban_essay: '', pelanggaran: 0, durasi: '-',
+                            created_at: new Date().toISOString()
                         }]).select('id').single();
                         if (errIns) throw errIns;
                         idRow = inserted.id;
@@ -6556,25 +6850,295 @@ Kisi-kisi harus:
                         p_status: "SELESAI - " + new Date().toLocaleTimeString('id-ID')
                     });
 
-                    if (error) throw error;
+                    if (error) {
+                        const errorMsg = error.message || JSON.stringify(error);
+                        throw new Error(`RPC koreksi_dan_submit gagal: ${errorMsg}`);
+                    }
                     successCount++;
                 } catch (err) {
                     console.error("Gagal upload file " + file.name, err);
+                    console.error("Error details:", {
+                        filename: file.name,
+                        error: err.message || err,
+                        timestamp: new Date().toISOString()
+                    });
+                    failDetails.push({
+                        file: file.name,
+                        error: err.message || JSON.stringify(err)
+                    });
                     failCount++;
                 }
             }
 
             event.target.value = ''; // Reset input agar bisa upload file yang sama lagi jika perlu
 
+            let htmlResult = `Berhasil diproses: <b>${successCount}</b> file<br>Gagal diproses: <b>${failCount}</b> file`;
+            if (failDetails.length > 0) {
+                htmlResult += '<hr style="margin: 10px 0;">';
+                failDetails.forEach(fd => {
+                    htmlResult += `<div style="text-align: left; font-size: 12px; margin: 5px 0; padding: 5px; background: rgba(239,68,68,0.1); border-radius: 4px;">
+                        <strong>${fd.file}</strong><br>
+                        ${fd.error}
+                    </div>`;
+                });
+            }
+
             Swal.fire({
                 title: 'Upload Selesai!',
-                html: `Berhasil diproses: <b>${successCount}</b> file<br>Gagal diproses: <b>${failCount}</b> file`,
+                html: htmlResult,
                 icon: successCount > 0 ? 'success' : 'warning',
                 confirmButtonColor: '#3b82f6',
                 customClass: { popup: 'admin-swal-popup', title: 'admin-swal-title', confirmButton: 'admin-swal-btn' }
             });
 
             if (successCount > 0) loadNilaiSiswa();
+        }
+
+        // ============ SORTING FUNCTIONALITY ============
+        // Global state untuk tracking sorting di monitoring dan laporan
+        const sortState = {
+            monitoring: { column: null, direction: 'asc' }, // 'asc' atau 'desc'
+            laporan: { column: null, direction: 'asc' }
+        };
+
+        // Data sementara untuk keperluan sorting
+        let tempMonitoringData = [];
+        let tempLaporanData = [];
+
+        // Fungsi untuk toggle sorting di monitoring
+        function toggleSortMonitoring(column) {
+            const current = sortState.monitoring;
+            if (current.column === column) {
+                // Toggle direction jika column sama
+                current.direction = current.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                // Set column baru dengan asc
+                current.column = column;
+                current.direction = 'asc';
+            }
+            // Reset page ke 1 dan reload
+            currentMonPage = 1;
+            loadMonitoring();
+        }
+
+        // Fungsi untuk toggle sorting di laporan
+        function toggleSortLaporan(column) {
+            const current = sortState.laporan;
+            if (current.column === column) {
+                // Toggle direction jika column sama
+                current.direction = current.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                // Set column baru dengan asc
+                current.column = column;
+                current.direction = 'asc';
+            }
+            // Reset page ke 1 dan reload
+            currentLapPage = 1;
+            loadNilaiSiswa();
+        }
+
+        // Fungsi untuk sort array data monitoring
+        function sortMonitoringData(data) {
+            const col = sortState.monitoring.column;
+            const dir = sortState.monitoring.direction;
+            
+            if (!col) return data;
+            
+            const sorted = [...data].sort((a, b) => {
+                let valA, valB;
+                
+                switch (col) {
+                    case 'nama':
+                        valA = (a.nama || '').toLowerCase();
+                        valB = (b.nama || '').toLowerCase();
+                        break;
+                    case 'kelas':
+                        valA = (a.kelas || '').toLowerCase();
+                        valB = (b.kelas || '').toLowerCase();
+                        break;
+                    case 'status':
+                        // Custom sorting untuk status: 
+                        // Prioritas: PELANGGARAN > SELESAI > Sedang Mengerjakan (sorted by waktu mulai)
+                        const statusA = String(a.status || '').toUpperCase();
+                        const statusB = String(b.status || '').toUpperCase();
+                        const isASelesai = statusA.startsWith('SELESAI');
+                        const isBSelesai = statusB.startsWith('SELESAI');
+                        const isAPlg = statusA.startsWith('PELANGGARAN');
+                        const isBPlg = statusB.startsWith('PELANGGARAN');
+                        
+                        // Group 1: PELANGGARAN (paling atas)
+                        if (isAPlg && !isBPlg) return -1;
+                        if (!isAPlg && isBPlg) return 1;
+                        if (isAPlg && isBPlg) {
+                            // Both pelanggaran, sort by waktu
+                            const timeA = new Date(a.created_at || '').getTime();
+                            const timeB = new Date(b.created_at || '').getTime();
+                            return dir === 'asc' ? timeA - timeB : timeB - timeA;
+                        }
+                        
+                        // Group 2: SELESAI (tengah)
+                        if (isASelesai && !isBSelesai) return 1;
+                        if (!isASelesai && isBSelesai) return -1;
+                        if (isASelesai && isBSelesai) {
+                            // Both selesai, sort by status name
+                            return dir === 'asc' 
+                                ? statusA.localeCompare(statusB)
+                                : statusB.localeCompare(statusA);
+                        }
+                        
+                        // Group 3: Sedang Mengerjakan (bawah, sorted by waktu mulai)
+                        const timeA = new Date(a.created_at || '').getTime();
+                        const timeB = new Date(b.created_at || '').getTime();
+                        return dir === 'asc' ? timeA - timeB : timeB - timeA;
+                        
+                    case 'pelanggaran':
+                        valA = parseInt(a.pelanggaran) || 0;
+                        valB = parseInt(b.pelanggaran) || 0;
+                        break;
+                    case 'waktu':
+                        valA = new Date(a.created_at || '').getTime();
+                        valB = new Date(b.created_at || '').getTime();
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                // Compare (untuk non-status cases)
+                if (col !== 'status') {
+                    let result = 0;
+                    if (typeof valA === 'string') {
+                        result = valA.localeCompare(valB);
+                    } else {
+                        result = valA > valB ? 1 : valA < valB ? -1 : 0;
+                    }
+                    return dir === 'asc' ? result : -result;
+                }
+            });
+            
+            updateSortIndicators('monitoring');
+            return sorted;
+        }
+
+        // Fungsi untuk sort array data laporan
+        function sortLaporanData(data) {
+            const col = sortState.laporan.column;
+            const dir = sortState.laporan.direction;
+            
+            if (!col) return data;
+            
+            const sorted = [...data].sort((a, b) => {
+                let valA, valB;
+                
+                switch (col) {
+                    case 'nama':
+                        valA = (a.nama || '').toLowerCase();
+                        valB = (b.nama || '').toLowerCase();
+                        break;
+                    case 'kelas':
+                        valA = (a.kelas || '').toLowerCase();
+                        valB = (b.kelas || '').toLowerCase();
+                        break;
+                    case 'skor':
+                        valA = parseInt(a.skor_pg) || 0;
+                        valB = parseInt(b.skor_pg) || 0;
+                        break;
+                    case 'durasi':
+                        valA = (a.durasi || '').toLowerCase();
+                        valB = (b.durasi || '').toLowerCase();
+                        break;
+                    case 'status':
+                        valA = (a.status || '').toLowerCase();
+                        valB = (b.status || '').toLowerCase();
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                // Compare
+                let result = 0;
+                if (typeof valA === 'string') {
+                    result = valA.localeCompare(valB);
+                } else {
+                    result = valA > valB ? 1 : valA < valB ? -1 : 0;
+                }
+                
+                return dir === 'asc' ? result : -result;
+            });
+            
+            updateSortIndicators('laporan');
+            return sorted;
+        }
+
+        // Fungsi untuk update visual indicators (arrow)
+        function updateSortIndicators(table) {
+            const state = sortState[table];
+            const prefix = table === 'monitoring' ? 'mon' : 'lap';
+            
+            // Clear semua indicators
+            const allIndicators = document.querySelectorAll(`[id^="sort-indicator-${prefix}"]`);
+            allIndicators.forEach(el => el.textContent = '');
+            
+            // Set indicator untuk column yang aktif
+            if (state.column) {
+                const activeIndicator = document.getElementById(`sort-indicator-${prefix}-${state.column}`);
+                if (activeIndicator) {
+                    activeIndicator.textContent = state.direction === 'asc' ? '↑' : '↓';
+                    activeIndicator.style.color = state.direction === 'asc' ? '#34d399' : '#f87171';
+                }
+            }
+        }
+
+        // ============ CLEAR FUNCTIONS ============
+        
+        // Clear filter & sort untuk monitoring
+        function clearFilterMonitoring() {
+            document.getElementById('search-nama-monitoring').value = '';
+            document.getElementById('filter-mapel-monitoring').value = '';
+            document.getElementById('filter-kelas-monitoring').value = '';
+            
+            // Reset status filter
+            currentMonStatus = 'ALL';
+            
+            // Remove highlight dari semua cards
+            const cards = {
+                'AKTIF': document.getElementById('mon-card-aktif'),
+                'SELESAI': document.getElementById('mon-card-selesai'),
+                'PELANGGARAN': document.getElementById('mon-card-pelanggaran')
+            };
+            Object.entries(cards).forEach(([status, card]) => {
+                if (card) {
+                    card.style.borderWidth = '2px';
+                    card.style.background = status === 'AKTIF' ? 'rgba(16, 185, 129, 0.04)' : status === 'SELESAI' ? 'rgba(59, 130, 246, 0.04)' : 'rgba(239, 68, 68, 0.04)';
+                }
+            });
+            
+            currentMonPage = 1;
+            loadMonitoring();
+        }
+
+        function clearSortMonitoring() {
+            sortState.monitoring.column = null;
+            sortState.monitoring.direction = 'asc';
+            updateSortIndicators('monitoring');
+            currentMonPage = 1;
+            loadMonitoring();
+        }
+
+        // Clear filter & sort untuk laporan
+        function clearFilterLaporan() {
+            document.getElementById('search-nama-laporan').value = '';
+            document.getElementById('filter-mapel-laporan').value = '';
+            document.getElementById('filter-kelas-laporan').value = '';
+            currentLapPage = 1;
+            loadNilaiSiswa();
+        }
+
+        function clearSortLaporan() {
+            sortState.laporan.column = null;
+            sortState.laporan.direction = 'asc';
+            updateSortIndicators('laporan');
+            currentLapPage = 1;
+            loadNilaiSiswa();
         }
 
     </script>
