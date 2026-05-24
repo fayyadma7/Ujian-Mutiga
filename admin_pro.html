@@ -4262,7 +4262,7 @@
 
             // Format struktur data untuk Excel
             const strukturData = [
-                ["No", "Nama Siswa", "Kelas", "Mata Pelajaran", "Skor PG", "Jawaban Essay", "Durasi Pengerjaan", "Jumlah Pelanggaran", "Status Akhir", "Waktu Selesai"]
+                ["No", "Nama Siswa", "Kelas", "Mata Pelajaran", "Skor PG", "Jawaban Essay", "Durasi Pengerjaan", "Jumlah Pelanggaran", "Detail Pelanggaran", "Status Akhir", "Waktu Selesai"]
             ];
 
             data.forEach((s, index) => {
@@ -4275,6 +4275,7 @@
                     s.jawaban_essay || '-',
                     s.durasi || '-',
                     s.pelanggaran || 0,
+                    s.log_pelanggaran || '-',
                     s.status || 'SELESAI',
                     s.created_at ? new Date(s.created_at).toLocaleString('id-ID') : '-'
                 ]);
@@ -4294,7 +4295,8 @@
                 { wch: 10 },  // Skor
                 { wch: 50 },  // Jawaban Essay
                 { wch: 20 },  // Durasi
-                { wch: 20 },  // Pelanggaran
+                { wch: 18 },  // Pelanggaran
+                { wch: 60 },  // Detail Pelanggaran
                 { wch: 30 },  // Status
                 { wch: 25 }   // Waktu
             ];

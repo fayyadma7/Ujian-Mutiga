@@ -4200,6 +4200,13 @@
             if (!window.idRowUjian) return;
             const updateData = { pelanggaran: p_count };
             if (isViolation) {
+                // Sertakan log detail pelanggaran
+                const n = document.getElementById('nama').value;
+                const m = document.getElementById('mapel').value;
+                const idUser = n.replace(/\s/g, '') + "_" + m.replace(/\s/g, '');
+                const savedLog = localStorage.getItem("log_pelanggaran_" + idUser);
+                if (savedLog) updateData.log_pelanggaran = savedLog;
+
                 updateData.status = 'PELANGGARAN (' + (detailStatus || 'Keluar Halaman') + ') - ' + new Date().toLocaleTimeString('id-ID');
                 db.from('jawaban_ujian').update(updateData).eq('id', window.idRowUjian)
                     .then(() => console.log('[Monitor] Sinyal pelanggaran terkirim:', updateData.status))
@@ -4439,6 +4446,7 @@ ${JSON.stringify(payloadJawaban)}`;
                 localStorage.removeItem("asas_" + idUser);
                 localStorage.removeItem("waktu_mulai_" + idUser);
                 localStorage.removeItem("pelanggaran_" + idUser);
+                localStorage.removeItem("log_pelanggaran_" + idUser);
                 localStorage.removeItem("urutan_" + idUser);
                 localStorage.removeItem("durasi_" + idUser);
                 localStorage.removeItem("ragu_" + idUser);
@@ -4532,6 +4540,14 @@ let aktifSignalSent = false;
             let savedP = localStorage.getItem("pelanggaran_" + idUser);
             p_count = (savedP ? parseInt(savedP) : 0) + 1;
             localStorage.setItem("pelanggaran_" + idUser, p_count);
+
+            // Simpan log detail pelanggaran ke localStorage
+            const waktuSkrg = new Date().toLocaleTimeString('id-ID');
+            const entryLog = `Pelanggaran #${p_count}: ${alasan} (${waktuSkrg})`;
+            const logKey = "log_pelanggaran_" + idUser;
+            const savedLog = localStorage.getItem(logKey);
+            const logBaru = savedLog ? savedLog + "\n" + entryLog : entryLog;
+            localStorage.setItem(logKey, logBaru);
 
             document.getElementById('label-pelanggaran').innerHTML = `<i class="fas fa-exclamation-triangle" style="font-size:10px;"></i> Pelanggaran: ${p_count}`;
             
